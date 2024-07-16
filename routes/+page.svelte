@@ -61,7 +61,12 @@
 											child.relpos = 0
 										});
 									} else {
+									// len--;
+									  let at =0;
 										notfix.forEach(child => {
+										  // len--;
+											while(State.taken[[this.x+140, this.y+(  len)*300 + 150]]) { console.log("TAKEN"); len-- }
+											State.taken[[this.x+140, this.y+(  len)*300 + 150]] = true
 											child.setpos(this.x+140, this.y+(--len)*300 + 150)
 											child.relpos = len
 											if(child.relpos >= 0) { child.relpos++; }
@@ -123,6 +128,7 @@
 									this.maps[input] = node;
 								}
 							}
+							State.taken = {}
 						
 							var ctx = canvas.getContext('2d');
 							trackTransforms(ctx);
@@ -130,7 +136,7 @@
 							// function init() {
 								let l = ['0', '1'];
 								// let input = "(01)|((110)|(11)|(1))|(001)"
-								let input = "(01)|((11)|(00))|(001)"
+								let input = "((ab)|(cd))|((ef)|(gh))|(001)"
 								// let input = "(01)|(11)"
 
 
@@ -186,43 +192,56 @@
 								let states = [];
 								let triverse = (state, head) => {
 									if(typeof(head) == 'string') {
-										states.push(new State(undefined, undefined, name='q'))
-										state.connect(head, states[states.length-1])
-										return state
+										if(head.length == 1) {
+											state.name = head;
+										}
+										// states.push(new State(undefined, undefined, name=head))
+										// state.connect(Math.random(), states[states.length-1])
+										// return state
+										// state.name = head;
+										let last = state
+										head.substring(1, head.length-1).split('').forEach((child) =>{
+											// console.log("sd " + child)
+										  let cstate =new State(undefined, undefined, name=child) 
+											states.push(cstate)
+											// state.connect(head, states[states.length-1])
+											last.connect(head[1], cstate)
+											last = cstate
+											// triverse(cstate, child)
+										})
 									} else {
 										head.children.forEach((child) =>{
-										states.push(new State(undefined, undefined, name='q'))
-										// state.connect(head, states[states.length-1])
-										 triverse(states[states.length-1], child)
+											console.log("sd " + child)
+										  let cstate =new State(undefined, undefined, name='q') 
+											states.push(cstate)
+											// state.connect(head, states[states.length-1])
+											state.connect(Math.random(), cstate)
+											triverse(cstate, child)
 										})
 									}
 								} 
 								let p = new State(95, 50, "t"+low[0]);
-								// triverse(p, parser(input))
-
-								// for(let i=0; i<input.length; i++) {
-									// states.push(new State(95+i*220, 50, 'q'+low[i.toString()]));
-								states.push(new State( undefined, undefined, name= 'q'+low['0'] ))//.toString()] ));
+								states.push(p)
+								triverse(p, parser(input))
+								
+								// states.push(new State( undefined, undefined, name= 'q'+low['0'] ))
+								// let at=0;
+								// for(let i=0; i<input.length-1; i++) {
+								//  if(l.some(c => c==input[i])) {
+								// 		let p = new State( undefined, undefined, name= 'q'+low[i.toString()] )
+								// 		let label = input[i];
+								// 		if(input[i+1] == '|') { label = input[i] + ', ' + input[i+2]}
+								// 		states[at++].connect(label, p);
+								// 		states.push(p);
+								// 	}
 								// }
-								let at=0;
-								for(let i=0; i<input.length-1; i++) {
-								 if(l.some(c => c==input[i])) {
-										let p = new State( undefined, undefined, name= 'q'+low[i.toString()] )
-										let label = input[i];
-										if(input[i+1] == '|') { label = input[i] + ', ' + input[i+2]}
-										states[at++].connect(label, p);
-										states.push(p);
-									// } else {
-									// 	at--
-									}
-								}
+
 								// Parse Recursively All the Nodes
 								// each node gets required input  <-- MAYBE
 								// Convert tree to 
 								// LR splitting the branches
 
-
-								
+						
 								// states[0].connect('0', states[1]);
 								// states[0].connect('1', states[2]);
 								// states[1].connect('0', states[3]);
@@ -234,7 +253,7 @@
 
 								states[0].setpos(95, 50);
 
-								console.log(states[1])
+								// console.log(p)
 							// }
 							function redraw(){
 
