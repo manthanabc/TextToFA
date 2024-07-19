@@ -140,6 +140,23 @@
     --ring: #D6E2E9; 
    }
 
+
+.bg-popover {
+  backdrop-filter: blur(15px) !important;
+  background-color: #00000050 !important;
+}
+
+@property --angle{
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 90deg;
+}
+
+@keyframes spin {
+  0%{ --angle: 0deg; } 
+  100%{  --angle: 360deg; }
+}
+
 .suu {
 /*
 192 70% 43%;
@@ -165,7 +182,7 @@
     --card: 32 100% 49%;
     --card-foreground: 43 100% 51%;
  
-    --border: 192 70% 43%;
+    --border: black;
     --input: 192 70% 43%;
  
     --primary: 43 100% 51%;
