@@ -15,7 +15,6 @@
   import * as Table from "$lib/components/ui/table/index.js";
 
   import * as Card from "$lib/components/ui/card/index.js";
-// import WebGLFluid from 'webgl-fluid'
   import { Checkbox } from "$lib/components/ui/checkbox/index.js";
 	let canvas ={}
 	let goFullscreen = console.log
@@ -29,40 +28,6 @@
   const profileRadioValue = "benoit";	
 		onMount(async () => {
 
-
-							// WebGLFluid(document.getElementById('FLUID'), {
-
-							// 	  TRIGGER: 'hover',
-							// 	  IMMEDIATE: true,
-							// 	  AUTO: true,
-							// 	  INTERVAL: 3000,
-							// 	  SIM_RESOLUTION: 128,
-							// 	  DYE_RESOLUTION: 1024,
-							// 	  CAPTURE_RESOLUTION: 512,
-							// 	  DENSITY_DISSIPATION: 1,
-							// 	  VELOCITY_DISSIPATION: 0.3,
-							// 	  PRESSURE: 0.8,
-							// 	  PRESSURE_ITERATIONS: 20,
-							// 	  CURL: 30,
-							// 	  SPLAT_RADIUS: 0.35,
-							// 	  SPLAT_FORCE: 6000,
-							// 	  SPLAT_COUNT: Number.parseInt(Math.random() * 20) + 5,
-							// 	  SHADING: true,
-							// 	  COLORFUL: true,
-							// 	  COLOR_UPDATE_SPEED: 10,
-							// 	  PAUSED: false,
-							// 	  BACK_COLOR: { r: 0, g: 0, b: 0 },
-							// 	  TRANSPARENT: false,
-							// 	  BLOOM: true,
-							// 	  BLOOM_ITERATIONS: 8,
-							// 	  BLOOM_RESOLUTION: 256,
-							// 	  BLOOM_INTENSITY: 0.8,
-							// 	  BLOOM_THRESHOLD: 0.6,
-							// 	  BLOOM_SOFT_KNEE: 0.7,
-							// 	  SUNRAYS: true,
-							// 	  SUNRAYS_RESOLUTION: 196,
-							// 	  SUNRAYS_WEIGHT: 1.0,						
-							// })
 						document.addEventListener("keydown", function (e) {
 						  if (
 						    e.ctrlKey &&
@@ -76,6 +41,7 @@
 						    e.preventDefault();
 						  }
 						});
+
 						document.addEventListener(
 						  "wheel",
 						  function (e) {
@@ -95,7 +61,6 @@
 								goFullscreen()
 							}
 						};
-
 					
 						canvas = document.getElementById('DFA');
 						let app = document.getElementById('APP');
@@ -117,30 +82,9 @@
 								await document.exitFullscreen()
 							}
 						}
-						// addEventListener("fullscreenchange", async (event) => {
-						// 	if(!Document.fullscreenElement) {
-						// 		canvas.width = 1100; canvas.height = 600;
-						// 	}else {
-								
-						// 	await canvas.requestFullscreen();
-						// 	canvas.width = window.innerWidth;
-						// 	canvas.height = window.innerHeight;
-						// 	init()
-						// 	redraw()
-						// 	}
-						// });
 
 						let siz = 80;
 						let mar = 20;
-						// let low = '0123456789'
-
-						// Construct the graph
-						/**
-							Create a base node
-								Create child nodes
-								Define connections ( via algorithm )
-								Base node creates the positions of the first degree children which recursivly do the same 
-						*/
 
 							class State {
 								constructor(x=0, y=0, name='q0') {
@@ -151,19 +95,11 @@
 									this.highlighted = false;
 									this.children = []
 								}
-								// constructor(name='q0') {
-								// 	this.x = 0;
-								// 	this.y = 0;
-								// 	this.name = name;
-								// 	this.maps = {};
-								// }
 								setpos(x, y) {
 									this.x = x;
 									this.y = y;
 									this.children = Object.values(this.maps);
-									// let notfix = this.children.filter((key) => key.x == 0);
 									let notfix = this.children;
-									// let len = this.children.length/2
 									let len = notfix.length/2
 									console.log(`Log for ${this.name}`)
 									console.log(notfix)
@@ -173,10 +109,8 @@
 											child.relpos = 0
 										});
 									} else {
-									// len--;
 									  let at =0;
 										notfix.forEach(child => {
-										  // len--;
 											while(State.taken[[this.x+140, this.y+(  len)*300 + 150]]) { console.log("TAKEN"); len-- }
 											State.taken[[this.x+140, this.y+(  len)*300 + 150]] = true
 											child.setpos(this.x+200, this.y+(--len)*300 + 150)
@@ -198,9 +132,7 @@
 												ctx.fillStyle = "rgba(255 0 0 0.9)"
 											}
 											child.relpos = child.relpos || 0
-									    // ctx.lineTo(this.maps[key].x, this.maps[key].y);
 											ctx.bezierCurveTo(this.x, this.y + 50*child.relpos, child.x - 75, child.y, child.x, child.y)
-									    // ctx.closePath();
 											ctx.stroke();
 
 											let rp = child.relpos;
@@ -243,8 +175,6 @@
 									ctx.arc(this.x, this.y, 35 , 0, 2 * Math.PI);
 									let gradient = ctx.createLinearGradient(this.x-20, this.y+20, this.x+20, this.y-20);
 									// gradient.addColorStop(0.4, "#0000ff");
-									// gradient.addColorStop(0.5, "#5a5aff");
-									// gradient.addColorStop(0.3, "#1a1a5f");
 									// gradient.addColorStop(0.9, "#aaaaaa");
 									gradient.addColorStop(1, "#ffffff");
 									ctx.fillStyle  = gradient;
@@ -274,83 +204,71 @@
 							var ctx = canvas.getContext('2d');
 							trackTransforms(ctx);
 
-							// function init() {
-								let l = ['0', '1'];
-								// let input = "(01)|((110)|(11)|(1))|(001)"
-								let input = "((ab)|(cd))|((ef)|(gh))|(001)"
-								// input = "(a|(b(z(g|(t(f|a)))|e))|(ce(z|e(aa|b)))|d)"
-								// let input = "(01)|(11)"
+							let l = ['0', '1'];
+							// let input = "(01)|((110)|(11)|(1))|(001)"
+							let input = "((ab)|(cd))|((ef)|(gh))|(001)"
+							// let input = "(01)|(11)"
 
 
-								let parser = (strin) => {
-								let i=0
-								let bc = 0;
-								let head = {}
-								let strt = 0;
-								head.children = []
-									// if(strin[0] == '(') {
-										while(i<strin.length) {
-											if(strin[i] == ')'){ bc--; }
-											else if(strin[i] == '('){ bc++; }
-											// if(strin[i] == '|') { strt++ }
-											// else {
-												if(bc == 0) {
-												  let child = strin.substring(strt, i+1)
-													console.log("shades of grey " + child)
-													if(child[1] == '(') {
-														head.children.push(parser(child.substring(1, child.length-1)))
-													} else if (child.length > 3){
-														head.children.push(child)
-													}
-													strt = i+1
+							let parser = (strin) => {
+							let i=0
+							let bc = 0;
+							let head = {}
+							let strt = 0;
+							head.children = []
+									while(i<strin.length) {
+										if(strin[i] == ')'){ bc--; }
+										else if(strin[i] == '('){ bc++; }
+											if(bc == 0) {
+											  let child = strin.substring(strt, i+1)
+												console.log("shades of grey " + child)
+												if(child[1] == '(') {
+													head.children.push(parser(child.substring(1, child.length-1)))
+												} else if (child.length > 3){
+													head.children.push(child)
 												}
-											// }
-											i++
-										}
-									return head;
-								}
-								console.log(parser(input));
-								// console.log(head);
-
-								// let states = [];
-								let triverse = (state, head) => {
-									if(typeof(head) == 'string') {
-										if(head.length == 1) {
-											state.name = head;
-										}
-										// states.push(new State(undefined, undefined, name=head))
-										// state.connect(Math.random(), states[states.length-1])
-										// return state
-										// state.name = head;
-										let last = state
-										head.substring(1, head.length-1).split('').forEach((child) =>{
-											// console.log("sd " + child)
-										  let cstate =new State(undefined, undefined, name=child) 
-											states.push(cstate)
-											// state.connect(head, states[states.length-1])
-											last.connect(head[1], cstate)
-											last = cstate
-											// triverse(cstate, child)
-										})
-									} else {
-										head.children.forEach((child) =>{
-											console.log("sd " + child)
-										  let cstate =new State(undefined, undefined, name='q') 
-											states.push(cstate)
-											// state.connect(head, states[states.length-1])
-											state.connect(Math.random(), cstate)
-											triverse(cstate, child)
-										})
+												strt = i+1
+											}
+										i++
 									}
-								} 
-								let p = new State(95, 50, "t"+low[0]);
-								states.push(p)
-								triverse(p, parser(input))
-								states[0].setpos(95, 50);
+								return head;
+							}
+							console.log(parser(input));
+
+							// let states = [];
+							let triverse = (state, head) => {
+								if(typeof(head) == 'string') {
+									if(head.length == 1) {
+										state.name = head;
+									}
+									let last = state
+									head.substring(1, head.length-1).split('').forEach((child) =>{
+										// console.log("sd " + child)
+									  let cstate =new State(undefined, undefined, name=child) 
+										states.push(cstate)
+										// state.connect(head, states[states.length-1])
+										last.connect(head[1], cstate)
+										last = cstate
+										// triverse(cstate, child)
+									})
+								} else {
+									head.children.forEach((child) =>{
+										console.log("sd " + child)
+									  let cstate =new State(undefined, undefined, name='q') 
+										states.push(cstate)
+										// state.connect(head, states[states.length-1])
+										state.connect(Math.random(), cstate)
+										triverse(cstate, child)
+									})
+								}
+							} 
+							let p = new State(95, 50, "t"+low[0]);
+							states.push(p)
+							triverse(p, parser(input))
+							states[0].setpos(95, 50);
 
 							function redraw(){
-
-							
+						
 								var p1 = ctx.transformedPoint(0,0);
 								var p2 = ctx.transformedPoint(canvas.width, canvas.height);
 								ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
@@ -367,95 +285,88 @@
 							redraw();
 
 							let init = () => {
+										
+							var lastX=canvas.width/2, lastY=canvas.height/2;
+							var dragStart,dragged;
+							let highlighted = false;
+							let start = undefined;
+							canvas.addEventListener('mousedown',function(evt){
+							  let pt = ctx.transformedPoint(evt.offsetX, evt.offsetY);
+								document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
+								lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
+								lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+								dragged = false;
+								if(evt.shiftKey) {
+									dragged = true;
+									states.push(new State(pt.x, pt.y, "w"))
+								}
+								// console.log(evt)
+								if(evt.altKey) { start = highlighted; return }
+								dragStart = ctx.transformedPoint(lastX,lastY);
+								checkhighlight(dragStart)
+							},false);
+							
+							let checkhighlight = (pt) => {
+									let plight = false;
+									states.forEach(state => {
+										if(Math.abs(state.x - pt.x)<80 && Math.abs(state.y - pt.y)<80) {
+											state.highlighted = true;
+											plight = state
+											redraw();
+										} else {
+											state.highlighted = false;
+											redraw();
+										}
+									})
+									highlighted= plight
+							}
+							canvas.addEventListener('mousemove', function(evt){
+							  let pt = ctx.transformedPoint(evt.offsetX, evt.offsetY);
+								if(!dragStart) {checkhighlight(pt) } else { redraw() }
+								if(highlighted && dragStart ) {
+									highlighted.x = pt.x//-dragStart.x;
+									highlighted.y = pt.y//-dragStart.y;
+									dragged = true;
+									return
+								}
+								
+								lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
+								lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+								dragged = true;
+								if (dragStart){
+									// var pt = ctx.transformedPoint(lastX,lastY);
+									ctx.translate(pt.x-dragStart.x, pt.y-dragStart.y);
+									redraw();
+								}
+							},false);
 
+							canvas.addEventListener('mouseup',function(evt){
+								dragStart = null;
+								console.log(start)
+								if (!dragged) zoom(evt.shiftKey ? -1 : 1 );
+								if(evt.altKey) { if(highlighted) { start.connect(Math.random(), highlighted) }; start=undefined }
+							},false);
 
-											
-											var lastX=canvas.width/2, lastY=canvas.height/2;
-											var dragStart,dragged;
-											let highlighted = false;
-											let start = undefined;
-											canvas.addEventListener('mousedown',function(evt){
-											  let pt = ctx.transformedPoint(evt.offsetX, evt.offsetY);
-												document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
-												lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
-												lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
-												dragged = false;
-												if(evt.shiftKey) {
-													dragged = true;
-													states.push(new State(pt.x, pt.y, "w"))
-												}
-												// console.log(evt)
-												if(evt.altKey) { start = highlighted; return }
- 												dragStart = ctx.transformedPoint(lastX,lastY);
-												checkhighlight(dragStart)
-											},false);
-											
-											let checkhighlight = (pt) => {
-													let plight = false;
-													states.forEach(state => {
-														if(Math.abs(state.x - pt.x)<80 && Math.abs(state.y - pt.y)<80) {
-															state.highlighted = true;
-															plight = state
-															redraw();
-														} else {
-															state.highlighted = false;
-															redraw();
-														}
-													})
-													highlighted= plight
-											}
-											canvas.addEventListener('mousemove', function(evt){
-											  let pt = ctx.transformedPoint(evt.offsetX, evt.offsetY);
-												if(!dragStart) {checkhighlight(pt) } else { redraw() }
-												if(highlighted && dragStart ) {
-													highlighted.x = pt.x//-dragStart.x;
-													highlighted.y = pt.y//-dragStart.y;
-													dragged = true;
-													return
-												}
-												
-												lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
-												lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
-												dragged = true;
-												if (dragStart){
-													// var pt = ctx.transformedPoint(lastX,lastY);
-													ctx.translate(pt.x-dragStart.x, pt.y-dragStart.y);
-													redraw();
-												}
-											},false);
+							var scaleFactor = 1.1;
+							var zoom = function(clicks){
+								var pt = ctx.transformedPoint(lastX,lastY);
+								ctx.translate(pt.x,pt.y);
+								var factor = Math.pow(scaleFactor,clicks);
+								ctx.scale(factor,factor);
+								ctx.translate(-pt.x,-pt.y);
+								redraw();
+							}
 
-											canvas.addEventListener('mouseup',function(evt){
-												dragStart = null;
-												console.log(start)
-												if (!dragged) zoom(evt.shiftKey ? -1 : 1 );
-												if(evt.altKey) { if(highlighted) { start.connect(Math.random(), highlighted) }; start=undefined }
-											},false);
-
-											var scaleFactor = 1.1;
-											var zoom = function(clicks){
-												var pt = ctx.transformedPoint(lastX,lastY);
-												ctx.translate(pt.x,pt.y);
-												var factor = Math.pow(scaleFactor,clicks);
-												ctx.scale(factor,factor);
-												ctx.translate(-pt.x,-pt.y);
-												redraw();
-											}
-
-											var handleScroll = function(evt){
-												var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
-												if (delta) zoom(delta);
-												return evt.preventDefault() && false;
-											};
-											canvas.addEventListener('DOMMouseScroll',handleScroll,false);
-											canvas.addEventListener('mousewheel',handleScroll,false);
+							var handleScroll = function(evt){
+								var delta = evt.wheelDelta ? evt.wheelDelta/40 : evt.detail ? -evt.detail : 0;
+								if (delta) zoom(delta);
+								return evt.preventDefault() && false;
+							};
+							canvas.addEventListener('DOMMouseScroll',handleScroll,false);
+							canvas.addEventListener('mousewheel',handleScroll,false);
 						}
 						init()
-						// };
-						// gkhead.src = 'http://phrogz.net/tmp/gkhead.jpg';
-						// ball.src   = 'http://phrogz.net/tmp/alphaball.png';
-	
-						// Adds ctx.getTransform() - returns an SVGMatrix
-						// Adds ctx.transformedPoint(x,y) - returns an SVGPoint
+
 						function trackTransforms(ctx){
 							var svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
 							var xform = svg.createSVGMatrix();
@@ -713,11 +624,13 @@
 											        <span class="text-left text-slate-500 w-3/5">Reset View</span>
 									</div>
 								</Card.Content>
-							</Card.Root>
+
+							  <Card.Footer>
+							    <p class="text-slate-500">Press F1 to open documentation</p>
+							  </Card.Footer>
+							  </Card.Root>
 						</div>
 				</div>
-
-				
 	<script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.3"></script>	<canvas id="DFA" style="background-image: none; background: #00000050"></canvas>
 	<canvas id="FLUID" class="absolute w-full h-full" style="z-index:-1;"></canvas>
   	<Separator />
