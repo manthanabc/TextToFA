@@ -56,9 +56,13 @@
 
 
 						onkeydown = (event) => {
-							console.log(event)
+							// console.log(event)
 							if(event.ctrlKey && event.code=="KeyF") {
 								goFullscreen()
+							}
+							if(event.altKey && event.code=="KeyG") {
+								State.taken = []
+								states[0].setpos(0, 0)
 							}
 						};
 					
@@ -98,32 +102,33 @@
 								setpos(x, y) {
 									this.x = x;
 									this.y = y;
-									this.children = Object.values(this.maps);
+									this.children = this.children; //Object.values(this.maps);
 									let notfix = this.children;
 									let len = notfix.length/2
-									console.log(`Log for ${this.name}`)
-									console.log(notfix)
+									// console.log(`Log for ${this.name}`)
+									// console.log(notfix)
 									if(notfix.length == 1) {
-										this.children.forEach(child => {
+										this.children.forEach(([child, conn]) => {
 											child.setpos(this.x+220, this.y)
 											child.relpos = 0
 										});
 									} else {
 									  let at =0;
-										notfix.forEach(child => {
+										notfix.forEach(([child, conn]) => {
 											while(State.taken[[this.x+140, this.y+(  len)*300 + 150]]) { console.log("TAKEN"); len-- }
 											State.taken[[this.x+140, this.y+(  len)*300 + 150]] = true
 											child.setpos(this.x+200, this.y+(--len)*300 + 150)
 											child.relpos = len
-											if(child.relpos >= 0) { child.relpos++; }
+											// if(child.relpos >= 0) { child.relpos++; }
 										});
 									}
 								}
 								draw() {
 									ctx.lineWidth = 3;
 									ctx.strokeStyle = "hsl(199, 50%, 50%)";
-									Object.keys(this.maps).forEach((key) => {
-											let child = this.maps[key];
+									// Object.keys(this.maps).forEach((key) => {
+									this.children.forEach(([child, con]) => {
+											// let child = this.maps[key];
 									    ctx.beginPath();
 									    ctx.moveTo(this.x, this.y);
 											if(this.highlighted) {
@@ -132,15 +137,23 @@
 												ctx.fillStyle = "rgba(255 0 0 0.9)"
 											}
 											child.relpos = child.relpos || 0
-											ctx.bezierCurveTo(this.x, this.y + 50*child.relpos, child.x - 75, child.y, child.x, child.y)
+											let tangslop = -(child.x-this.x)/(child.y-this.y);
+											// tangslop = 1/tangslop
+											// ctx.bezierCurveTo(this.x, this.y + 50*child.relpos, child.x - 75, child.y, child.x, child.y)
+											let L = -(this.x-child.x)/(this.y-child.y+0.01);
+											let D = Math.sqrt((this.x-child.x)*(this.x-child.x) + (this.y-child.y)*(this.y-child.y))*2/50
+											let K = Math.max(Math.sqrt(26*L*L), 3)
+											let Y = Math.min(Math.abs(this.y-child.y)/100, 1)
+											// ctx.quadraticCurveTo((this.x+child.x)/2 - 150, (this.y+child.y)/2 - 150*tangslop, child.x, child.y);
+											ctx.quadraticCurveTo((this.x+child.x)/2 - 15*Y*D/K, (this.y+child.y)/2 - 15*L*Y*D/K, child.x, child.y);
 											ctx.stroke();
 
 											let rp = child.relpos;
 											let de = -rp*30
 											
 									    ctx.beginPath();
-											let sx = this.maps[key].x - 40
-											let sy = this.maps[key].y - 10*rp
+											let sx = child.x - 40
+											let sy = child.y - 10*rp
 									    ctx.moveTo(sx, sy);
 											ctx.lineTo(sx + Math.sin((-90-45+de)*Math.PI/180)*10, sy + Math.cos((-90-45+de)*Math.PI/180)*10);
 											ctx.closePath();
@@ -154,7 +167,7 @@
 											ctx.stroke();
 											ctx.font = '15px Verdana';
 											ctx.fillStyle = "hsl(199, 50%, 50%)"
-											ctx.fillText(key, (this.x + this.maps[key].x)/2 , (this.y + this.maps[key].y)/2 -5);  
+											ctx.fillText(con, (this.x + child.x)/2 , (this.y + child.y)/2 -5);  
 									})		
 									ctx.fillStyle = "hsl(199, 64%, 73%)"
 									if(this.highlighted) {
@@ -195,8 +208,11 @@
 									// ctx.fillText (this.name, this.x-40, this.y);
 								}
 								connect(input, node) {
-									this.maps[input] = node;
-									this.children.push(node);
+									// this.maps[input].push(node);
+									this.children.push([node, input]);
+								}
+								setchildpos(node) {
+									this.children.filter((node) => node == node)[0].relpos = 1;
 								}
 							}
 							State.taken = {}
@@ -206,22 +222,25 @@
 
 							let l = ['0', '1'];
 							// let input = "(01)|((110)|(11)|(1))|(001)"
-							let input = "((ab)|(cd))|((ef)|(gh))|(001)"
+							let input = "(01)^((110)|(11)|(1))"
+							// let input = "((ab)|(cd))|((ef)|(gh))|(001)"
 							// let input = "(01)|(11)"
 
 
 							let parser = (strin) => {
-							let i=0
-							let bc = 0;
-							let head = {}
-							let strt = 0;
-							head.children = []
+									let i=0
+									let bc = 0;
+									let head = {}
+									let strt = 0;
+									head.children = []
 									while(i<strin.length) {
 										if(strin[i] == ')'){ bc--; }
 										else if(strin[i] == '('){ bc++; }
 											if(bc == 0) {
 											  let child = strin.substring(strt, i+1)
 												console.log("shades of grey " + child)
+												if(child == '|') { head.type = "or" }
+												if(child == '^') { head.type = "and" }
 												if(child[1] == '(') {
 													head.children.push(parser(child.substring(1, child.length-1)))
 												} else if (child.length > 3){
@@ -247,13 +266,13 @@
 									  let cstate =new State(undefined, undefined, name=child) 
 										states.push(cstate)
 										// state.connect(head, states[states.length-1])
-										last.connect(head[1], cstate)
+										last.connect(child, cstate)
 										last = cstate
 										// triverse(cstate, child)
 									})
 								} else {
 									head.children.forEach((child) =>{
-										console.log("sd " + child)
+										// console.log("sd " + child)
 									  let cstate =new State(undefined, undefined, name='q') 
 										states.push(cstate)
 										// state.connect(head, states[states.length-1])
@@ -344,7 +363,7 @@
 								dragStart = null;
 								console.log(start)
 								if (!dragged) zoom(evt.shiftKey ? -1 : 1 );
-								if(evt.altKey) { if(highlighted) { start.connect(Math.random(), highlighted) }; start=undefined }
+								if(evt.altKey) { if(highlighted) { start.connect(Math.random(), highlighted); start.setchildpos(highlighted) }; start=undefined }
 							},false);
 
 							var scaleFactor = 1.1;
@@ -518,6 +537,14 @@
 				    </Menubar.Content>
 				  </Menubar.Menu>
 				</Menubar.Root>        
+				<div class="relative absolute top-12 left-0 ml-3">
+					<Tabs.Root value="account" class="w-[400px]">
+					  <Tabs.List>
+					    <Tabs.Trigger value="account">NFA</Tabs.Trigger>
+					    <Tabs.Trigger value="password">DFA</Tabs.Trigger>
+					  </Tabs.List>
+					</Tabs.Root>
+				</div>
 
 				<div class="absolute max-width-300 items-top flex-col bottom-1 p-4 backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] m-4 rounded-lg">
 					<Tabs.Root value="account" class="w-full-[400px]">
@@ -547,9 +574,8 @@
 				</div>
 
 
-
-				<div class="absolute right-1 h-full flex flex-col justify-between pointer-events-none">
-						<div class="m-0 pt-10">
+				<div class="absolute right-1 h-full flex flex-col justify-between ">
+						<div class="m-0 pt-10 pointer-events-none">
 							<Card.Root class=" p-4 backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] rounded-lg border-none">
 							  <Card.Header>
 							    <Card.Title>DFA Table</Card.Title>
@@ -607,6 +633,11 @@
 											        <span class="font-medium text-slate-300 pr-4">Alt + Click</span>
 													    <Separator orientation="vertical" />
 											        <span class="text-left text-slate-500 w-3/5">Add a transfomation</span>
+									</div>
+									<div class="flex justify-between p-0 m-0">
+											        <span class="font-medium text-slate-300 pr-4">Alt + G</span>
+													    <Separator orientation="vertical" />
+											        <span class="text-left text-slate-500 w-3/5">Rearranges the nodes</span>
 									</div>
 									<div class="flex justify-between p-0 m-0">
 											        <span class="font-medium text-slate-300 pr-4">Ctrl + Click</span>
