@@ -288,18 +288,33 @@
 											let uvy = vy / Math.sqrt(vx*vx + vy*vy)
 											uvx =Math.min(uvx, 1);
 											uvy = Math.min(uvy, 1);
-											// ctx.arc(uvx*40 +child.x, uvy*40  +child.y, 50, 50, 100)
-											ctx.moveTo(uvx*40 +child.x, uvy*40  +child.y)
+
+
 
 
 											let size = 20;
+											let distance = 40;
 										  let angle = Math.atan(vx/vy)
 										  angle += (this.y>=child.y)?0:135
-											ctx.lineTo((uvx*40+child.x)+ size*Math.sin(angle-45), (uvy*40+child.y)+size*Math.cos(angle-45))
-											ctx.moveTo(uvx*40 +child.x, uvy*40  +child.y)
-											ctx.lineTo((uvx*40+child.x)+ size*Math.sin(angle+45), (uvy*40+child.y)+size*Math.cos(angle+45))
+										  let delx=0;
+											if(child == this && this.highlighted) {
+												// Loop about the input states
+												ctx.arc(35 +this.x, -35  +this.y, 30, 30, 100)
+												size = 20;
+												child.x+=30;
+												angle = 135;
+												uvx =1/Math.sqrt(2);
+												uvy =-1/Math.sqrt(2);
+												distance = 50
+											}
+											ctx.moveTo(uvx*distance +child.x, uvy*distance  +child.y)
+											ctx.lineTo((uvx*distance+child.x)+ size*Math.sin(angle-45), (uvy*distance+child.y)+size*Math.cos(angle-45))
+											ctx.moveTo(uvx*distance +child.x, uvy*distance  +child.y)
+											ctx.lineTo((uvx*distance+child.x)+ size*Math.sin(angle+45), (uvy*distance+child.y)+size*Math.cos(angle+45))
 											ctx.stroke()
-
+											if(child == this && this.highlighted) {
+												child.x-=30
+											}
 											// Static Arrows
 									    ctx.beginPath();
 											let sx = child.x - 40
@@ -340,7 +355,7 @@
 							// let input = "(011)^((110)|(11)|(1))"
 							// let input = "(11)^(((11)^((00)|(ok)))|((01)*))"
 							input = "(11)^(((11)^((00)|(ok)))|(01))"
-
+							input = "(11)|(00)"
 
 							let parser = (strin) => {
 									let i=0
@@ -356,7 +371,7 @@
 												console.log("shades of grey " + child)
 												if(child == '|') { head.type = "or" }
 												if(child == '^') { head.type = "and" }
-												// if(child == '*') { head.type = "muti" }
+												if(child == '*') { head.type = "muti" }
 												if(child[1] == '(') {
 													head.children.push(parser(child.substring(1, child.length-1)))
 												} else if (child.length > 3){
@@ -387,11 +402,17 @@
 										// triverse(cstate, child)
 									})
 									if(sg) {
-										console.log("gogog")
+										// console.log("gogog for "+ head)
 										const base = states[states.length-1]
+										
 										sg.children.forEach((child) => {
+											console.log("double go for "+ child)
 											base.children.push(child)
 										})
+										// console.log(base)
+										// console.log("HERE")
+										// base.children.push([sg, "t"])
+										
 										// states[states.length-1].connect("t", sg)
 									}
 								} else {
@@ -404,7 +425,7 @@
 											// state.connect(Math.random(), cstate)
 											// triverse(cstate, child)
 
-											triverse(state, child)
+											triverse(state, child, sg)
 										})
 									} else if(head.type == "and") {
 
@@ -419,12 +440,19 @@
 										// states.push(cstate)
 										// state.connect(Math.random(), cstate)
 										triverse(state, head.children[0], sg)
+									} else {
+										head.children.forEach((child) =>{
+											triverse(state, child, state)
+											console.log(state.name)
+										})
 									}
 								}
 							} 
 							let p = new State(95, 50, "t"+low[0]);
 							states.push(p)
+							console.log(parser(input))
 							triverse(p, parser(input))
+							console.log(p)
 							states[0].setpos(200, 450);
 							states[0].final = true;
 
