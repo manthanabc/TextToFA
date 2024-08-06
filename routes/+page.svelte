@@ -386,7 +386,7 @@
 							console.log(parser(input));
 
 							// let states = [];
-							let triverse = (state, head, sg) => {
+							let triverse = (state, head) => {
 								if(typeof(head) == 'string') {
 									if(head.length == 1) {
 										state.name = head;
@@ -401,65 +401,71 @@
 										last = cstate
 										// triverse(cstate, child)
 									})
-									if(sg) {
-										// console.log("gogog for "+ head)
-										const base = states[states.length-1]
-										
-										sg.children.forEach((child) => {
-											console.log("double go for "+ child)
-											base.children.push(child)
-										})
-										// console.log(base)
-										// console.log("HERE")
-										// base.children.push([sg, "t"])
-										
-										// states[states.length-1].connect("t", sg)
-									}
+									const laste = states[states.length-1];
+									return [laste]
 								} else {
 									if(head.type == "or") {
+										let last = []
 										head.children.forEach((child) =>{
-
-											// Disabled creation of intermidiatory states
-										 //  let cstate =new State(undefined, undefined, name='q') 
-											// states.push(cstate)
-											// state.connect(Math.random(), cstate)
-											// triverse(cstate, child)
-
-											triverse(state, child, sg)
+											let p = triverse(state, child)
+											last=last.concat(p)
 										})
+										console.log("retered")
+										console.log(last)
+										return last
 									} else if(head.type == "and") {
 
 										let sg = new State(undefined, undefined, name="t")
-										// states.push(sg)
-										triverse(sg, head.children[1])
-
+										// states.push(sg) // not pushing the intermediatory state probably should delete after this function
+										let u = triverse(sg, head.children[1])
+										console.log("Uis")
+										console.log(u)
 										// state.connect(Math.random(), sg)
 										// sg.connect(cstate)
 
 									  // let cstate =new State(undefined, undefined, name='q') 
 										// states.push(cstate)
 										// state.connect(Math.random(), cstate)
-										triverse(state, head.children[0], sg)
-									} else {
-										head.children.forEach((child) =>{
-											triverse(state, child, state)
-											console.log(state.name)
+										let g = triverse(state, head.children[0]);
+										// g[0].children.push([sg, 'uwu'])
+										g.forEach((n) => {
+											sg.children.forEach((child)=> {
+												n.children.push(child)
+											})
 										})
+										return u;
+									} else {
+										let last = []
+										console.log("INCODInCALLED")
+										head.children.forEach((child) =>{
+											let z=triverse(state, child)
+											console.log("INCODIn")
+											console.log(z)
+											last=last.concat(z)
+										})
+										console.log("BA")
+										console.log(last)
+										last.forEach((node) => {
+											node.children.push([state, 't'])
+										})
+										return last;
 									}
 								}
 							} 
 							let p = new State(95, 50, "t"+low[0]);
 							states.push(p)
-							console.log(parser(input))
-							triverse(p, parser(input))
+							// console.log(parser(input))
+							let finals = triverse(p, parser(input))
 							console.log(p)
-							states[0].setpos(200, 450);
-							states[0].final = true;
+							// finals.forEach((state) => { state.final = true })
+							console.log(finals)
+							// states[0].setpos(200, 450);
+							// states[0].final = true;
 
 							inputchanged = (input) => {
 								State.taken=[]
 								triverse(p, parser(input))
-								states[0].setpos(200, 450);
+								// states[0].setpos(200, 450);
 								states[0].final = true;
 							}
 
