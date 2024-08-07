@@ -779,6 +779,8 @@
 					</div>
 				</div>
 
+
+				<!--             INPUT BOX             -->
 				<div class="absolute max-width-300 items-top flex-col bottom-1 p-4 backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] m-4 rounded-lg">
 					<Tabs.Root value="regex" class="w-full-[400px]">
 					  <Tabs.List>
@@ -810,8 +812,11 @@
 				</div>
 
 
-				<div class="absolute right-1 h-full flex flex-col justify-between pointer-events-none">
-						<div class="m-0 mt-14 ">
+				<!--          RIGHT HELP MENU            -->
+				<div class="absolute right-1 h-full flex flex-col justify-end pointer-events-none">
+
+						<!-- DFA TABLE -->
+						<div class="m-0 mt-14 mb-5">
 							<Card.Root class=" p-0 relative backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] rounded-lg border-none" >
 							  <Card.Header>
 							    <span class="absolute top-3 right-3" >
@@ -835,22 +840,10 @@
 											  <Table.Body>
 											{#each states as state}
 											      <Table.Row>
-											        <Table.Cell class="font-medium">state.name</Table.Cell>
-											        <Table.Cell>accept</Table.Cell>
-											        <Table.Cell>Q0</Table.Cell>
-											        <Table.Cell class="text-right">Q3</Table.Cell>
-											      </Table.Row>
-											      <Table.Row>
-											        <Table.Cell class="font-medium">A</Table.Cell>
-											        <Table.Cell>accept</Table.Cell>
-											        <Table.Cell>Q0</Table.Cell>
-											        <Table.Cell class="text-right">Q3</Table.Cell>
-											      </Table.Row>
-											      <Table.Row>
-											        <Table.Cell class="font-medium">A</Table.Cell>
-											        <Table.Cell>accept</Table.Cell>
-											        <Table.Cell>Q0</Table.Cell>
-											        <Table.Cell class="text-right">Q3</Table.Cell>
+											        <Table.Cell class="font-medium">{ state.name }</Table.Cell>
+											        <Table.Cell>{ (state.final)?"accept":"-" }</Table.Cell>
+											        <Table.Cell>{ (state.children[1])?state.children[1][0].name:'-' }</Table.Cell>
+											        <Table.Cell class="text-right">{ (state.children[0])?state.children[0][0].name:'-' }</Table.Cell>
 											      </Table.Row>
 											{/each}		
 											  </Table.Body>
@@ -860,7 +853,8 @@
 							</Card.Root>
 						</div>
 
-						<div class="max-w-xl">
+						<!-- HELP MENU -->
+						<div class="max-w-xl mb-4">
 							<Card.Root class=" w-full backdrop-blur bg-black/30 shadow-[0px_0px_50px_2px_black] bottom-5 rounded-lg border-none">
 							  <Card.Header>
 							    <span class="absolute top-3 right-3">
@@ -907,15 +901,21 @@
 							  </Card.Footer>
 							  </Card.Root>
 						</div>
-						<div style="pointer-events: all;">
+
+						<!-- SPOTIFY EMBED -->
+						<div style="pointer-events: all;" class="mb-4">
 							<div id="embed-iframe" > </div>
 						</div>
 				</div>
+
 				<!-- script src="https://open.spotify.com/embed/iframe-api/v1" async></script -->
 				<script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.3"></script>	<canvas id="DFA" style="background-image: none; background: #00000050"></canvas>
 
+				<!-- DFA CANVAS ELEMENT -->
 				<canvas id="FLUID" class="absolute w-full h-full" style="z-index:-1;"></canvas>
 
+
+				<!-- ALERT MENU -->
 				<AlertDialog.Root bind:open>
 				  <AlertDialog.Content class="border-none shadow-2xl backdrop-blur bg-black/30 shadow-[0px_0px_50px_2px_black] rounded-lg">
 				    <AlertDialog.Header>
