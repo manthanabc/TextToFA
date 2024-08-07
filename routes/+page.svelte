@@ -105,7 +105,15 @@
 							}
 							if(event.altKey && event.code=="KeyG") {
 								State.taken = []
+								states.forEach((n) =>{ n.x = 0; n.y=0 })
 								states[0].setpos(0, 0)
+					     if(states.length == 0 ) {return}
+					     let frst = states[0]
+					     if(frst) { frst.children = [] }
+					     states =[]
+					     states.push(frst)
+					     inputchanged(input)
+					     redraw();
 							}
 						};
 					
@@ -148,10 +156,10 @@
 									this.x = x;
 									this.y = y;
 									//this.children = this.children; //Object.values(this.maps);
-									let notfix = this.children;
+									let notfix = this.children.filter(([ty, u]) => ty.x==0);
 									let len = notfix.length/2
 									if(notfix.length == 1) {
-										this.children.forEach(([child, conn]) => {
+										notfix.forEach(([child, conn]) => {
 											child.setpos(this.x+220, this.y)
 											child.relpos = 0
 										});
@@ -436,7 +444,6 @@
 										return u;
 									} else {
 										let last = []
-										console.log("INCODInCALLED")
 										head.children.forEach((child) =>{
 											let z=triverse(state, child)
 											console.log("INCODIn")
@@ -446,7 +453,10 @@
 										console.log("BA")
 										console.log(last)
 										last.forEach((node) => {
-											node.children.push([state, 't'])
+											state.children.forEach((nod) => {
+											console.log(nod[0])
+												node.children.push(nod)
+											})
 										})
 										return last;
 									}
@@ -459,13 +469,13 @@
 							console.log(p)
 							// finals.forEach((state) => { state.final = true })
 							console.log(finals)
-							// states[0].setpos(200, 450);
+							states[0].setpos(200, 450);
 							// states[0].final = true;
 
 							inputchanged = (input) => {
 								State.taken=[]
 								triverse(p, parser(input))
-								// states[0].setpos(200, 450);
+								states[0].setpos(200, 450);
 								states[0].final = true;
 							}
 
@@ -770,15 +780,15 @@
 				</div>
 
 				<div class="absolute max-width-300 items-top flex-col bottom-1 p-4 backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] m-4 rounded-lg">
-					<Tabs.Root value="account" class="w-full-[400px]">
+					<Tabs.Root value="regex" class="w-full-[400px]">
 					  <Tabs.List>
-					    <Tabs.Trigger value="account">Text</Tabs.Trigger>
-					    <Tabs.Trigger value="password">Regex</Tabs.Trigger>
+					    <Tabs.Trigger value="text">Text</Tabs.Trigger>
+					    <Tabs.Trigger value="regex">Regex</Tabs.Trigger>
 					  </Tabs.List>
-					  <Tabs.Content value="account">
+					  <Tabs.Content value="text">
 							<Textarea placeholder="Design a DFA to match 001 or 011 ocurring anywhere in the given string" class="backdrop-blur bg-black/10 resize-none border-none" />
 					  </Tabs.Content>
-					  <Tabs.Content value="password">
+					  <Tabs.Content value="regex">
 							<Textarea placeholder="(001)|((10)|(aa)|(bc))" bind:value="{input}" class="backdrop-blur bg-black/10 resize-none border-none" />
 						</Tabs.Content>
 					</Tabs.Root>
