@@ -153,25 +153,33 @@
 									this.children = []
 								}
 								setpos(x, y) {
-									this.x = x;
-									this.y = y;
+									this.x = x || this.x;
+									this.y = y || this.y;
 									//this.children = this.children; //Object.values(this.maps);
 									let notfix = this.children.filter(([ty, u]) => ty.x==0);
+									console.log(this)
+									console.log('fixing child')
+									console.log(notfix)
 									let len = notfix.length/2
 									if(notfix.length == 1) {
+										console.log("one child")
 										notfix.forEach(([child, conn]) => {
 											child.setpos(this.x+220, this.y)
 											child.relpos = 0
 										});
 									} else {
 									  let at =0;
+										console.log("two child")
 										notfix.forEach(([child, conn]) => {
 											while(State.taken[[this.x+140, this.y+(  len)*300 + 150]]) { console.log("TAKEN"); len-- }
 											State.taken[[this.x+140, this.y+(  len)*300 + 150]] = true
-											child.setpos(this.x+200, this.y+(--len)*300 + 150)
 											child.relpos = len
-											// if(child.relpos >= 0) { child.relpos++; }
+											child.x = this.x+200;
+											child.y = this.y+(--len)*300 + 150
 										});
+										notfix.forEach(([child, conn]) => {
+											child.setpos()
+										})
 									}
 								}
 								drawSelf() {
@@ -252,8 +260,9 @@
 											let red = 1;
 											if(child.children.some(([c, n]) => c == this) ) {
 												if(this.y < child.y) { red = -1; }
-												D=10;
-												K=3;
+												D=1;
+												K=1;
+												// L=1
 											}
 
 											let mx = - red*15*Y*D/K
@@ -298,9 +307,7 @@
 											uvy = Math.min(uvy, 1);
 
 
-
-
-											let size = 20;
+											let size = 15;
 											let distance = 40;
 										  let angle = Math.atan(vx/vy)
 										  angle += (this.y>=child.y)?0:135
@@ -655,6 +662,7 @@
 
 <div class="h-full flex-col md:flex bg-gradient-to-tr from-[#111038] via-[#000712] to-[#351033]" style="background-image: linear-gradient(var(--angle), var(--tw-gradient-stops)) !important; animation: spin 5s ease infinite">
 
+				<!-- MENUBAR -->
 				<Menubar.Root class="backdrop-blur bg-black/30 w-full absolute border-none shadow-[0px_0px_50px_2px_black]">
 				  <Menubar.Menu >
 				    <Menubar.Trigger>File</Menubar.Trigger>
@@ -729,23 +737,13 @@
 				      <Menubar.Item inset>Hide Sidebar</Menubar.Item>
 				    </Menubar.Content>
 				  </Menubar.Menu>
-				  <Menubar.Menu>
-				    <Menubar.Trigger>Profiles</Menubar.Trigger>
-				    <Menubar.Content>
-				      <Menubar.RadioGroup value={profileRadioValue}>
-				        <Menubar.RadioItem value="andy">Andy</Menubar.RadioItem>
-				        <Menubar.RadioItem value="benoit">Benoit</Menubar.RadioItem>
-				        <Menubar.RadioItem value="Luis">Luis</Menubar.RadioItem>
-				      </Menubar.RadioGroup>
-				      <Menubar.Separator />
-				      <Menubar.Item inset>Edit...</Menubar.Item>
-				      <Menubar.Separator />
-				      <Menubar.Item inset>Add Profile...</Menubar.Item>
-				    </Menubar.Content>
-				  </Menubar.Menu>
 				</Menubar.Root>
-				        
+
+
+				<!-- NAV MENU -->
 				<div class="absolute top-12 left-0 flex flex-cols w-full absolute">
+
+					<!-- MODE -->
 					<Tabs.Root value="account" class="m-2">
 					  <Tabs.List style="background-color: #404040f0; backdrop-filter: blur(50px)">
 					    <Tabs.Trigger value="account">NFA</Tabs.Trigger>
@@ -758,6 +756,8 @@
 					    <Tabs.Trigger value="p">View</Tabs.Trigger>
 					  </Tabs.List>
 					</Tabs.Root>
+
+					<!-- THEME -->
 					<div class="m-2">
 						<DropdownMenu.Root class="bg-white">
 						  <DropdownMenu.Trigger asChild let:builder>
@@ -765,13 +765,16 @@
 						  </DropdownMenu.Trigger>
 						  <DropdownMenu.Content>
 						    <DropdownMenu.RadioGroup >
-						      <DropdownMenu.RadioItem value="top">Bubblegum</DropdownMenu.RadioItem>
-						      <DropdownMenu.RadioItem value="bottom">Minimal</DropdownMenu.RadioItem>
-						      <DropdownMenu.RadioItem value="right">Light</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="top">Reputation</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="bottom">Red</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="right">1984</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="pink">Lover</DropdownMenu.RadioItem>
 						    </DropdownMenu.RadioGroup>
 						  </DropdownMenu.Content>
 						</DropdownMenu.Root>
 					</div>
+
+					<!-- RUN PAUSE MENU -->
 					<div class="m-2 flex rounded-md" style="background-color: #40404040; backdrop-filter: blur(50px)">
 						<Button class="bg-slate-300 m-1 h-8 mr-0 w-10" size="sm"><Play class="h-4 w-4 shrink-0 opacity-80"/></Button>
 						<Button class="bg-transparent m-1 ml-0 mr-1 h-8 w-10 text-slate-300" size="sm"><Pause class="h-4 w-4 shrink-0 opacity-80"/></Button>
@@ -930,4 +933,5 @@
 				    </AlertDialog.Footer>
 				  </AlertDialog.Content>
 				</AlertDialog.Root>
+
 </div>
