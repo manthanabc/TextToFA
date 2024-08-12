@@ -5,10 +5,10 @@
 
 <script lang="ts">
 
-	// import {
-	// 	CodeViewer,
-	// 	PresetShare,
-	// } from "./(components)/index.js";	
+	import {
+		RightMenu,
+	} from "./(components)/index.js";	
+
   import Check from "lucide-svelte/icons/check";
   import Play from "lucide-svelte/icons/play";
   import Pause from "lucide-svelte/icons/pause";
@@ -33,40 +33,40 @@
 
   import * as AlertDialog from "$lib/components/ui/alert-dialog/index.js";
   
+	import { FA_states } from '../store.js';  
+
 	let canvas ={}
 	let goFullscreen = console.log
 	let open = false; 
   let bookmarks = false;
   let fullUrls = true;
-	let states = []
+	// let states = []
 	let input = ""
+	let theme = "lover"
+	let running = true;
   
   $: (() => {
      (input);
      if(!checked) {return}
-     if(states.length == 0 ) {return}
-     let frst = states[0]
-     if(frst) { frst.children = [] }
-     states =[]
-     states.push(frst)
+     resetState()
      inputchanged(input)
-     redraw();
   }) ()
 
   let checked= true;
  	let inputchanged = console.log
  	let redraw = console.log
+ 	let resetState = console.log
 	onMount(async () => {
 
 				window.onSpotifyIframeApiReady = (IFrameAPI) => {
 				  const element = document.getElementById('embed-iframe');
 				  const options = {
-				  		height: '600px',
+				  		height: '80px',
 				      uri: (Math.random()>0.5)? 'spotify:artist:06HL4z0CvFAxyc27GXpf02':'spotify:track:1tuNqJOtRQVHvONR8Lg3MZ' 
 				    };
 				  const callback = (EmbedController) => {
 				  	console.log(EmbedController)
-				  	EmbedController.iframeElement.height = '100%'
+				  	EmbedController.iframeElement.height = '80px'
 				  };
 				  IFrameAPI.createController(element, options, callback);
 				};					
@@ -97,6 +97,22 @@
 						  }
 						);
 
+						resetState = () => {
+							// if($FA_states.length==0) { return }
+							// FA_states.update(states => {
+							// 	State.taken = []
+							// 	// states.forEach((n) =>{ n.x = 0; n.y=0 })
+							// 	// if(states.length == 0) {
+							// 	// 	states.push(new State(95, 50, "t"+low[0]));
+							// 	// }
+							// 	// states[0].setpos(0, 0)
+							// 	// let frst = states[0]
+							// 	states =[]
+							// 	// states.push(frst)
+							// 	return states;
+							// })
+							// inputchanged(input)
+						}
 
 						onkeydown = (event) => {
 							// console.log(event)
@@ -104,15 +120,6 @@
 								goFullscreen()
 							}
 							if(event.altKey && event.code=="KeyG") {
-								State.taken = []
-								states.forEach((n) =>{ n.x = 0; n.y=0 })
-								states[0].setpos(0, 0)
-					     if(states.length == 0 ) {return}
-					     let frst = states[0]
-					     if(frst) { frst.children = [] }
-					     states =[]
-					     states.push(frst)
-					     inputchanged(input)
 					     redraw();
 							}
 						};
@@ -400,15 +407,16 @@
 							}
 							console.log(parser(input));
 
-							// let states = [];
-							let triverse = (state, head) => {
+							let states = [];
+							let triverse = (state, head, states) => {
 								if(typeof(head) == 'string') {
 									if(head.length == 1) {
 										state.name = head;
 									}
 									let last = state
 									head.substring(1, head.length-1).split('').forEach((child) =>{
-										// console.log("sd " + child)
+										console.log(states)
+										console.log("FUCK")
 									  let cstate =new State(undefined, undefined, name=child) 
 										states.push(cstate)
 										// state.connect(head, states[states.length-1])
@@ -422,7 +430,7 @@
 									if(head.type == "or") {
 										let last = []
 										head.children.forEach((child) =>{
-											let p = triverse(state, child)
+											let p = triverse(state, child, states)
 											last=last.concat(p)
 										})
 										console.log("retered")
@@ -432,17 +440,8 @@
 
 										let sg = new State(undefined, undefined, name="t")
 										// states.push(sg) // not pushing the intermediatory state probably should delete after this function
-										let u = triverse(sg, head.children[1])
-										console.log("Uis")
-										console.log(u)
-										// state.connect(Math.random(), sg)
-										// sg.connect(cstate)
-
-									  // let cstate =new State(undefined, undefined, name='q') 
-										// states.push(cstate)
-										// state.connect(Math.random(), cstate)
-										let g = triverse(state, head.children[0]);
-										// g[0].children.push([sg, 'uwu'])
+										let u = triverse(sg, head.children[1], states)
+										let g = triverse(state, head.children[0], states);
 										g.forEach((n) => {
 											sg.children.forEach((child)=> {
 												n.children.push(child)
@@ -452,7 +451,7 @@
 									} else {
 										let last = []
 										head.children.forEach((child) =>{
-											let z=triverse(state, child)
+											let z=triverse(state, child, states)
 											console.log("INCODIn")
 											console.log(z)
 											last=last.concat(z)
@@ -469,21 +468,28 @@
 									}
 								}
 							} 
+
+							// resetState();
 							let p = new State(95, 50, "t"+low[0]);
-							states.push(p)
-							// console.log(parser(input))
-							let finals = triverse(p, parser(input))
-							console.log(p)
-							// finals.forEach((state) => { state.final = true })
+							let tempstates = []
+							tempstates.push(p)
+							let finals = triverse(p, parser(input), tempstates)
 							console.log(finals)
-							states[0].setpos(200, 450);
-							// states[0].final = true;
+							tempstates[0].setpos(200, 450);
+							// console.log(tempstates)
+							console.log("UP")
+
+							FA_states.update((states) => states = tempstates)
+							console.log($FA_states)
 
 							inputchanged = (input) => {
 								State.taken=[]
-								triverse(p, parser(input))
-								states[0].setpos(200, 450);
-								states[0].final = true;
+								tempstates = []
+								let p = new State(95, 50, "t"+low[0]);
+								tempstates.push(p)
+								triverse(p, parser(input), tempstates)
+								tempstates[0].setpos(200, 450);
+								FA_states.update((states) => states = tempstates );
 							}
 
 							redraw = () =>{
@@ -493,10 +499,13 @@
 								ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
 								ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-								p.draw();
-								for(let i=0; i<states.length; i++) {
-									states[i].draw();
-								}
+								// p.draw();
+								FA_states.update((states) => {
+									for(let i=0; i<states.length; i++) {
+										states[i].draw();
+									}
+									return states;
+								})
 
 								ctx.save();
   							ctx.restore();
@@ -527,15 +536,18 @@
 							
 							let checkhighlight = (pt) => {
 									let plight = false;
-									states.forEach(state => {
-										if(Math.abs(state.x - pt.x)<80 && Math.abs(state.y - pt.y)<80) {
-											state.highlighted = true;
-											plight = state
-											redraw();
-										} else {
-											if(highlighted) {state.highlighted = false; redraw();
+									FA_states.update(states => {
+										states.forEach(state => {
+											if(Math.abs(state.x - pt.x)<80 && Math.abs(state.y - pt.y)<80) {
+												state.highlighted = true;
+												plight = state
+												redraw();
+											} else {
+												if(highlighted) {state.highlighted = false; redraw();
+												}
 											}
-										}
+										})
+										return states;
 									})
 									highlighted= plight
 							}
@@ -764,11 +776,12 @@
 						    <Button style="background-color: #40404040; backdrop-filter: blur(50px)" class="text-slate-300" builders={[builder]}>Themes <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50"/></Button>
 						  </DropdownMenu.Trigger>
 						  <DropdownMenu.Content>
-						    <DropdownMenu.RadioGroup >
-						      <DropdownMenu.RadioItem value="top">Reputation</DropdownMenu.RadioItem>
-						      <DropdownMenu.RadioItem value="bottom">Red</DropdownMenu.RadioItem>
-						      <DropdownMenu.RadioItem value="right">1984</DropdownMenu.RadioItem>
-						      <DropdownMenu.RadioItem value="pink">Lover</DropdownMenu.RadioItem>
+						    <DropdownMenu.RadioGroup bind:value={theme}>
+						      <DropdownMenu.RadioItem value="reputation">Reputation</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="red">Red</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="eightyfour">1984</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="lover">Lover</DropdownMenu.RadioItem>
+						      <DropdownMenu.RadioItem value="speaknow">Speak Now</DropdownMenu.RadioItem>
 						    </DropdownMenu.RadioGroup>
 						  </DropdownMenu.Content>
 						</DropdownMenu.Root>
@@ -776,9 +789,11 @@
 
 					<!-- RUN PAUSE MENU -->
 					<div class="m-2 flex rounded-md" style="background-color: #40404040; backdrop-filter: blur(50px)">
-						<Button class="bg-slate-300 m-1 h-8 mr-0 w-10" size="sm"><Play class="h-4 w-4 shrink-0 opacity-80"/></Button>
-						<Button class="bg-transparent m-1 ml-0 mr-1 h-8 w-10 text-slate-300" size="sm"><Pause class="h-4 w-4 shrink-0 opacity-80"/></Button>
-						<Button class="bg-transparent m-1 ml-0 mr-1 h-8 w-10 text-slate-300" size="sm"><Ch class="h-4 w-4 shrink-0 opacity-80"/></Button>
+						<Button class="m-1 h-8 mr-0 hover:bg-sky-700  w-10 bg-{running? 'sky-700': 'transparent'}" on:click={() => { running=!running;} } variant="secondary" size="sm">
+							<Play class="h-4 w-4 shrink-0 opacity-80"/>
+						</Button>
+						<Button class="hover:bg-sky-700 bg-{!running? 'sky-700': 'transparent'} m-1 ml-0 mr-1 h-8 w-10 text-slate-300" on:click={() => { running=!running;  } } variant="secondary" size="sm"><Pause class="h-4 w-4 shrink-0 opacity-80"/></Button>
+						<Button class="bg-transparent  m-1 ml-0 mr-1 h-8 w-10 text-slate-300" size="sm"><Ch class="h-4 w-4 shrink-0 opacity-80"/></Button>
 					</div>
 				</div>
 
@@ -809,109 +824,14 @@
 					    for="terms"
 					    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 					  >
-					    Auto Generate
+					    Auto Reload
 					  </Label>				
 					</div>
 				</div>
 
+				<RightMenu />
 
-				<!--          RIGHT HELP MENU            -->
-				<div class="absolute right-1 h-full flex flex-col justify-end pointer-events-none">
-
-						<!-- DFA TABLE -->
-						<div class="m-0 mt-14 mb-5">
-							<Card.Root class=" p-0 relative backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] rounded-lg border-none" >
-							  <Card.Header>
-							    <span class="absolute top-3 right-3" >
-							    	<i class="mi mi-chevron-down"></i>
-							    </span>
-
-							    <Card.Title>DFA Table</Card.Title>
-							  </Card.Header>
-							  <Card.Content class="overflow-y-scrlloll" style="max-height:400px; pointer-events: all">
-
-									    <ScrollArea style = " max-height: 500px" class="h-72 ">
-											<Table.Root >
-											  <Table.Header>
-											    <Table.Row>
-											      <Table.Head class="w-[100px]">DFA State</Table.Head>
-											      <Table.Head>Type</Table.Head>
-											      <Table.Head>0</Table.Head>
-											      <Table.Head class="text-right">1</Table.Head>
-											    </Table.Row>
-											  </Table.Header>
-											  <Table.Body>
-											{#each states as state}
-											      <Table.Row>
-											        <Table.Cell class="font-medium">{ state.name }</Table.Cell>
-											        <Table.Cell>{ (state.final)?"accept":"-" }</Table.Cell>
-											        <Table.Cell>{ (state.children[1])?state.children[1][0].name:'-' }</Table.Cell>
-											        <Table.Cell class="text-right">{ (state.children[0])?state.children[0][0].name:'-' }</Table.Cell>
-											      </Table.Row>
-											{/each}		
-											  </Table.Body>
-											</Table.Root>	
-											</ScrollArea>			
-								</Card.Content>
-							</Card.Root>
-						</div>
-
-						<!-- HELP MENU -->
-						<div class="max-w-xl mb-4">
-							<Card.Root class=" w-full backdrop-blur bg-black/30 shadow-[0px_0px_50px_2px_black] bottom-5 rounded-lg border-none">
-							  <Card.Header>
-							    <span class="absolute top-3 right-3">
-							    	<i class="mi mi-chevron-down"></i>
-							    </span>
-							    <Card.Title class="inline">Shortcuts</Card.Title>
-							  </Card.Header>
-						    <Separator class="mb-2"/>
-							  <Card.Content>
-									<div class="flex justify-between p-0 m-0">
-											        <span class="font-medium text-slate-300 pr-4">Shift + Click</span>
-													    <Separator orientation="vertical" />
-											        <span class="text-left text-slate-500 w-3/5">Add a new State</span>
-									</div>
-									<div class="flex justify-between p-0 m-0">
-											        <span class="font-medium text-slate-300 pr-4">Alt + Click</span>
-													    <Separator orientation="vertical" />
-											        <span class="text-left text-slate-500 w-3/5">Add a transfomation</span>
-									</div>
-									<div class="flex justify-between p-0 m-0">
-											        <span class="font-medium text-slate-300 pr-4">Alt + G</span>
-													    <Separator orientation="vertical" />
-											        <span class="text-left text-slate-500 w-3/5">Rearranges the nodes</span>
-									</div>
-									<div class="flex justify-between p-0 m-0">
-											        <span class="font-medium text-slate-300 pr-4">Ctrl + Click</span>
-													    <Separator orientation="vertical" />
-											        <span class="text-left text-slate-500 w-3/5">Removes a State</span>
-									</div>
-									<div class="flex justify-between p-0 m-0">
-											        <span class="font-medium text-slate-300 pr-4">Ctrl + F</span>
-													    <Separator orientation="vertical" />
-											        <span class="text-left text-slate-500 w-3/5">Toggle Fullscreen</span>
-									</div>
-									<div class="flex justify-between p-0 m-0">
-											        <span class="font-medium text-slate-300 pr-4">Ctrl + R</span>
-													    <Separator orientation="vertical" />
-											        <span class="text-left text-slate-500 w-3/5">Reset View</span>
-									</div>
-								</Card.Content>
-
-							  <Card.Footer>
-							    <p class="text-slate-500">Press F1 to open documentation</p>
-							  </Card.Footer>
-							  </Card.Root>
-						</div>
-
-						<!-- SPOTIFY EMBED -->
-						<div style="pointer-events: all;" class="mb-4">
-							<div id="embed-iframe" > </div>
-						</div>
-				</div>
-
-				<!-- script src="https://open.spotify.com/embed/iframe-api/v1" async></script -->
+				<script src="https://open.spotify.com/embed/iframe-api/v1" async></script >
 				<script src="https://cdn.jsdelivr.net/npm/webgl-fluid@0.3"></script>	<canvas id="DFA" style="background-image: none; background: #00000050"></canvas>
 
 				<!-- DFA CANVAS ELEMENT -->
