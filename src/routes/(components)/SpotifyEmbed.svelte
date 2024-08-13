@@ -20,15 +20,11 @@
 		});
 	};
 
-	// onMount(() => {
-	// 	const script = document.createElement('script');
-	// 	script.src = 'https://open.spotify.com/embed/iframe-api/v1';
-	// 	script.async = true;
-	// 	script.onload = () => {
-	// 		window.onSpotifyIframeApiReady = createSpotifyController;
-	// 	};
-	// 	document.body.appendChild(script);
-	// });
+	onMount(async () => {
+			window.onSpotifyIframeApiReady = createSpotifyController;
+	});
 </script>
 
-<div></div>
+<div>
+		<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+</div>

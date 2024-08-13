@@ -13,7 +13,6 @@ export function parser(strin) {
 			else if(strin[i] == '('){ bc++; }
 				if(bc == 0) {
 				  let child = strin.substring(strt, i+1)
-					console.log("shades of grey " + child)
 					if(child == '|') { head.type = "or" }
 					if(child == '^') { head.type = "and" }
 					if(child == '*') { head.type = "muti" }

@@ -10,7 +10,7 @@ export const reload = writable(true);
 export const canvas_contex = writable({});
 
 // User controlled Inputs
-export const regex = writable('(11)|(00)');
+export const regex = writable('((101)|(00))');
 export const input = writable('(11)|(00)');
 
 

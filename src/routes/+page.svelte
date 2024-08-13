@@ -16,17 +16,10 @@
 	import SpotifyEmbed from './(components)/SpotifyEmbed.svelte'
 
 	let canvas ={}
-	let goFullscreen = console.log
-	let open = false; 
-  let bookmarks = false;
-  let fullUrls = true;
-	let theme = "gum"
-	let running = true;
+	let goFullscreen = () => {}
 
-  let checked= true;
- 	let inputchanged = console.log
- 	let redraw = console.log
- 	let resetState = console.log
+ 	let inputchanged = () => {}
+ 	let redraw = () => {}
 
   $: (() => {
      ($input);
@@ -108,32 +101,6 @@
 						// input = "(11)^(((11)^((00)|(ok)))|(01))"
 						// input = "(11)|(00)"
 
-						let parser = (strin) => {
-								let i=0
-								let bc = 0;
-								let head = {}
-								let strt = 0;
-								head.children = []
-								while(i<strin.length) {
-									if(strin[i] == ')'){ bc--; }
-									else if(strin[i] == '('){ bc++; }
-										if(bc == 0) {
-										  let child = strin.substring(strt, i+1)
-											console.log("shades of grey " + child)
-											if(child == '|') { head.type = "or" }
-											if(child == '^') { head.type = "and" }
-											if(child == '*') { head.type = "muti" }
-											if(child[1] == '(') {
-												head.children.push(parser(child.substring(1, child.length-1)))
-											} else if (child.length > 3){
-												head.children.push(child)
-											}
-											strt = i+1
-										}
-									i++
-								}
-							return head;
-						}
 						console.log(parser(input));
 
 						// resetState();
@@ -143,11 +110,8 @@
 						let finals = triverse(p, parser(input), tempstates)
 						console.log(finals)
 						tempstates[0].setpos(200, 450);
-						// console.log(tempstates)
-						console.log("UP")
 
 						FA_states.update((states) => states = tempstates)
-						console.log($FA_states)
 
 						inputchanged = (input) => {
 							State.taken=[]
@@ -160,7 +124,7 @@
 						}
 
 						redraw = () =>{
-					
+				
 							var p1 = ctx.transformedPoint(0,0);
 							var p2 = ctx.transformedPoint(canvas.width, canvas.height);
 							ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
@@ -195,7 +159,6 @@
 								dragged = true;
 								states.push(new State(pt.x, pt.y, "w"))
 							}
-							// console.log(evt)
 							if(evt.altKey) { start = highlighted; return }
 							dragStart = ctx.transformedPoint(lastX,lastY);
 							checkhighlight(dragStart)
@@ -240,7 +203,6 @@
 
 							canvas.addEventListener('mouseup',function(evt){
 								dragStart = null;
-								console.log(start)
 								if (!dragged) zoom(evt.shiftKey ? -1 : 1 );
 								if(evt.altKey) { if(highlighted) { start.connect(Math.random(), highlighted); start.setchildpos(highlighted) }; start=undefined }
 							},false);

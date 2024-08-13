@@ -13,21 +13,16 @@ export default class State {
 				this.y = y || this.y;
 				//this.children = this.children; //Object.values(this.maps);
 				let notfix = this.children.filter(([ty, u]) => ty.x==0);
-				console.log(this)
-				console.log('fixing child')
-				console.log(notfix)
 				let len = notfix.length/2
 				if(notfix.length == 1) {
-					console.log("one child")
 					notfix.forEach(([child, conn]) => {
 						child.setpos(this.x+220, this.y)
 						child.relpos = 0
 					});
 				} else {
 				  let at =0;
-					console.log("two child")
 					notfix.forEach(([child, conn]) => {
-						while(State.taken[[this.x+140, this.y+(  len)*300 + 150]]) { console.log("TAKEN"); len-- }
+						while(State.taken[[this.x+140, this.y+(  len)*300 + 150]]) { len-- }
 						State.taken[[this.x+140, this.y+(  len)*300 + 150]] = true
 						child.relpos = len
 						child.x = this.x+200;

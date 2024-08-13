@@ -10,8 +10,6 @@ export function triverse(state, head, states) {
 			}
 			let last = state
 			head.substring(1, head.length-1).split('').forEach((child) =>{
-				console.log(states)
-				console.log("FUCK")
 			  let cstate =new State(undefined, undefined, name=child) 
 				states.push(cstate)
 				// state.connect(head, states[states.length-1])
@@ -28,8 +26,6 @@ export function triverse(state, head, states) {
 					let p = triverse(state, child, states)
 					last=last.concat(p)
 				})
-				console.log("retered")
-				console.log(last)
 				return last
 			} else if(head.type == "and") {
 
@@ -47,15 +43,10 @@ export function triverse(state, head, states) {
 				let last = []
 				head.children.forEach((child) =>{
 					let z=triverse(state, child, states)
-					console.log("INCODIn")
-					console.log(z)
 					last=last.concat(z)
 				})
-				console.log("BA")
-				console.log(last)
 				last.forEach((node) => {
 					state.children.forEach((nod) => {
-					console.log(nod[0])
 						node.children.push(nod)
 					})
 				})
