@@ -1,7 +1,7 @@
 <script>
-import RightMenu from './Overlay/RightMenu.svelte'
-import InputCard from './Overlay/InputCard.svelte'
-import TopBar from './Overlay/TopBar.svelte'
+import RightMenu from './overlay/RightMenu.svelte'
+import InputCard from './overlay/InputCard.svelte'
+import TopBar from './overlay/TopBar.svelte'
 </script>
 
 <div>
