@@ -20,3 +20,9 @@ npm i
 
 npm run build
 ```
+
+## Build with
+-  Svelte
+-  Tailwind css
+-  shadcn-svelte
+-  Canvas API
