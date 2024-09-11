@@ -10,7 +10,7 @@
 <div>
 		<!-- DFA TABLE -->
 		<div class="m-0 mt-14 mb-5">
-			<Card.Root class=" p-0 relative backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] rounded-lg border-none" >
+			<Card.Root class=" p-0 relative backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_12px_1px_black] rounded-lg border-none" >
 			  <Card.Header>
 			    <span class="absolute top-3 right-3" >
 			    	<i class="mi mi-chevron-down"></i>

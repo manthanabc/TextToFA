@@ -11,7 +11,7 @@
 </script>
 
 <div>
-		<div class="absolute max-width-300 items-top flex-col bottom-1 p-4 backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_50px_2px_black] m-4 rounded-lg">
+		<div class="absolute max-width-300 items-top flex-col bottom-1 p-4 backdrop-blur bg-black/30 max-w-xl w-full shadow-[0px_0px_12px_1px_black] m-4 rounded-lg">
 			<Tabs.Root value="regex" class="w-full-[400px]">
 			  <Tabs.List>
 			    <Tabs.Trigger value="text">Text</Tabs.Trigger>

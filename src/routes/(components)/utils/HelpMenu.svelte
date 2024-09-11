@@ -6,7 +6,7 @@
 <div>
 		<!-- HELP MENU -->
 		<div class="max-w-xl mb-4">
-			<Card.Root class=" w-full backdrop-blur bg-black/30 shadow-[0px_0px_50px_2px_black] bottom-5 rounded-lg border-none">
+			<Card.Root class=" w-full backdrop-blur bg-black/30 shadow-[0px_0px_12px_1px_black] bottom-5 rounded-lg border-none">
 			  <Card.Header>
 			    <span class="absolute top-3 right-3">
 			    	<i class="mi mi-chevron-down"></i>
