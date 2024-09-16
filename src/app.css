@@ -7,6 +7,7 @@
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
  
+    --cardBackground: black;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
  
@@ -40,6 +41,7 @@
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
  
+    --cardBackground: black;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
  
@@ -98,17 +100,6 @@
   }
 
 .suuu {
-/*
-192 70% 43%;
-
-200 95% 14%;
-
-199 64% 73%;
-
-43 100% 51%;
-
-32 100% 49%;
-*/
 
     --foreground:199 64% 73%;
     --background:200 95% 14%;
@@ -157,19 +148,7 @@
   100%{  --angle: 360deg; }
 }
 
-.suu {
-/*
-192 70% 43%;
-
-200 95% 14%;
-
-199 64% 73%;
-
-43 100% 51%;
-
-32 100% 49%;
-*/
-
+.gum {
     --foreground: 199 64% 73%;
     --background: 200 95% 14%;
  

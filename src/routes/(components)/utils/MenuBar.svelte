@@ -8,7 +8,7 @@
 
 <div>
 	<!-- MENUBAR -->
-	<Menubar.Root class="backdrop-blur bg-cardBackground/80 black/20 w-full absolute border-none shadow-md shadow-cardBackground">
+	<Menubar.Root class="backdrop-blur bg-cardBackground/80 black/20 w-full absolute border-none shadow-[0px_0px_12px_1px_black]">
 	  <Menubar.Menu >
 	    <Menubar.Trigger>File</Menubar.Trigger>
 	    <Menubar.Content>
