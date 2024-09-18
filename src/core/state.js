@@ -1,12 +1,14 @@
 export default class State {
-			constructor(x=0, y=0, name='q0') {
+			constructor(x=0, y=0, name='q0', current=false) {
 				this.x = x;
 				this.y = y;
 				this.name = name;
 				this.maps = {};
 				this.highlighted = false;
 				this.final = false;
-				this.children = []
+				this.children = [];
+				this.is_current = current
+				this.was_current = false;
 			}
 			setpos(x, y) {
 				this.x = x || this.x;
@@ -40,12 +42,22 @@ export default class State {
 					ctx.globalAlpha = 0.2;
 					ctx.fillStyle = "rgba(255 0 0 0.9)"
 				}
+				if(this.is_current) {
+					ctx.shadowColor = "rgb(250 0 250)";
+					ctx.globalAlpha = 0.2;
+					ctx.fillStyle = "rgba(255 0 0 0.9)"
+				}
+				if(this.is_current && this.final) {
+					ctx.shadowColor = "rgb(0 250 0)";
+					ctx.globalAlpha = 0.2;
+					ctx.fillStyle = "rgba(255 0 0 0.9)"
+				}
 				ctx.beginPath();
 				if(this.final) {
 					ctx.fillStyle = "black"
-				} else {		ctx.fillStyle = "hsl(199, 50%, 50%)"
-				}
-				ctx.arc(this.x, this.y, 40+ this.highlighted * 10, 0, 2 * Math.PI);
+				} else {		ctx.fillStyle = "hsl(199, 50%, 50%)" }
+				
+				ctx.arc(this.x, this.y, 40+ (this.highlighted||this.is_current) * 10, 0, 2 * Math.PI);
 				ctx.fill();
 				ctx.globalAlpha = 1;
 				ctx.beginPath();
@@ -54,7 +66,7 @@ export default class State {
 				} else {
 					ctx.shadowColor = "rgb(55 55 250)";
 				}
-				ctx.shadowBlur = 21+ this.highlighted * 10;
+				// ctx.shadowBlur = 21+ this.highlighted * 10;
 				if(this.highlighted) {
 					ctx.shadowColor = "rgb(200 0 250)";
 				}

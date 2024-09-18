@@ -13,10 +13,11 @@ let sub_input;
 engine.inputchanged = (input) => {
 	State.taken=[]
 	let tempstates = []
-	let p = new State(95, 50, "t");
+	let p = new State(95, 50, "t", true);
 	tempstates.push(p)
 	triverse(p, parser(input), tempstates)
 	tempstates[0].setpos(200, 450);
+	tempstates[0].is_current = true;
 	FA_states.update((states) => states = tempstates );
 	redraw();
 }
@@ -132,7 +133,7 @@ let init = () => {
 
 	canvas.addEventListener('mousedown',function(evt){
 	  let pt = ctx.transformedPoint(evt.offsetX, evt.offsetY);
-		document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
+		// document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
 		lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
 		lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
 		dragged = false;
@@ -142,6 +143,16 @@ let init = () => {
 		}
 		if(evt.altKey) { start = highlighted; return }
 		dragStart = ctx.transformedPoint(lastX,lastY);
+		if(highlighted) {
+			FA_states.update(states => {
+				let current = states.filter((state) => state.is_current)[0];
+				current.is_current = false;
+				return states;
+			}) 
+			highlighted.is_current = true;
+			dragged = true; 
+			return;
+		}
 		checkhighlight(dragStart)
 	},false);
 
@@ -231,11 +242,23 @@ engine.load= async() => {
 		let running = true;
 
 		let checked= true;
-		let redraw = console.log
 		let resetState = console.log
 		
 		// Canvas code
 		canvas = document.getElementById('DFA');
+
+		canvas.addEventListener('keydown', (e) => {
+			let states;
+			FA_states.subscribe((val) => states = val);
+			let active_state = states.filter((state) => state.is_current)[0];
+			let next = active_state.children.filter( ([ _, con]) => con == e.key)[0];
+			if(!next) { return }
+			next = next[0]
+			next.is_current = true;
+			active_state.is_current = false;
+			FA_states.update((_) => states);
+			redraw();
+		})
 	
 		canvas.width = 1100; canvas.height = 600;
 		canvas.width = window.innerWidth;
@@ -276,19 +299,16 @@ engine.load= async() => {
 		trackTransforms(ctx);
 		State.taken = {}
 		
-		// resetState();
-		let p = new State(95, 50, "t"+low[0]);
+		let p = new State(95, 50, "t"+low[0], true);
 		let tempstates = []
 		tempstates.push(p)
 		let finals = triverse(p, parser(sub_input), tempstates)
-		console.log(finals)
 		tempstates[0].setpos(200, 450);
+		tempstates[0].is_current = true;
 		FA_states.update((states) => states = tempstates)
 
 		redraw();
 		init();
-
-		console.log(sub_input)
 }
 
 export default engine;
