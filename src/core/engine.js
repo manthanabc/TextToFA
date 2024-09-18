@@ -147,6 +147,7 @@ let init = () => {
 			FA_states.update(states => {
 				let current = states.filter((state) => state.is_current)[0];
 				current.is_current = false;
+				redraw();
 				return states;
 			}) 
 			highlighted.is_current = true;
@@ -165,7 +166,9 @@ let init = () => {
 						plight = state
 						redraw();
 					} else {
-						if(highlighted) {state.highlighted = false; redraw();
+						if(highlighted) {
+							state.highlighted = false; 
+							redraw();
 						}
 					}
 				})
