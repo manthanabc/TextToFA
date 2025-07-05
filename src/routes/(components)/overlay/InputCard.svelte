@@ -18,7 +18,7 @@
 			    <Tabs.Trigger value="regex">Regex</Tabs.Trigger>
 			  </Tabs.List>
 			  <Tabs.Content value="text">
-					<Textarea placeholder="Design a DFA to match 001 or 011 ocurring anywhere in the given string" class="backdrop-blur bg-black/10 resize-none border-none" />
+					<Textarea placeholder=" (Work in progress i.e does not work) Design a DFA to match 001 or 011 ocurring anywhere in the given string" class="backdrop-blur bg-black/10 resize-none border-none" />
 			  </Tabs.Content>
 			  <Tabs.Content value="regex">
 					<Textarea placeholder="(001)|((10)|(aa)|(bc))" bind:value="{$input}" class="backdrop-blur bg-black/10 resize-none border-none" />
