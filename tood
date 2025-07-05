@@ -10,12 +10,14 @@ bubblegum linear-gradient(62deg, #ff85ec, #4cbaff)
 https://github.com/codrops/RainEffect/tree/master
 plus paralax
 
-
 mous particles
 https://github.com/scottschiller/Snowstorm
 https://github.com/simeydotme/sparticles?tab=readme-ov-file
 
-
 add paper like effect for this game
 https://www.thedragonstrap.com/
 plus imperfect borders
+
+
+// Add support for pushdown atomaton
+by taking the genration rules as input
