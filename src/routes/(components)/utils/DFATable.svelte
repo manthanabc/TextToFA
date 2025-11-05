@@ -22,26 +22,28 @@
 
 					    <ScrollArea style = " max-height: 500px" class="h-72 ">
 							<Table.Root >
-							  <Table.Header>
-							    <Table.Row>
-							      <Table.Head class="w-[100px]">DFA State</Table.Head>
-							      <Table.Head>Type</Table.Head>
-							      <Table.Head>0</Table.Head>
-							      <Table.Head class="text-right">1</Table.Head>
-							    </Table.Row>
-							  </Table.Header>
-							  <Table.Body>
-							{#each $states as state}
-							      <Table.Row>
-							        <Table.Cell class="font-medium">{ state.name }</Table.Cell>
-							        <Table.Cell>{ (state.final)?"accept":"-" }</Table.Cell>
-							        <Table.Cell>{ (state.children[1])?state.children[1][0].name:'-' }</Table.Cell>
-							        <Table.Cell class="text-right">{ (state.children[0])?state.children[0][0].name:'-' }</Table.Cell>
-							      </Table.Row>
-							{/each}		
-							  </Table.Body>
-							</Table.Root>	
-							</ScrollArea>			
+      <Table.Header>
+        <Table.Row>
+          <Table.Head class="w-[100px]">State</Table.Head>
+          <Table.Head>Type</Table.Head>
+          <Table.Head>Transitions</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+      {#each $states as state}
+        <Table.Row>
+          <Table.Cell class="font-medium">{ state.name }</Table.Cell>
+          <Table.Cell>{ state.final ? "accept" : "-" }</Table.Cell>
+          <Table.Cell>
+            {#if state.children && state.children.length}
+              {state.children.map(([child, con]) => `${con}→${child.name}`).join(', ')}
+            {:else}-{/if}
+          </Table.Cell>
+        </Table.Row>
+      {/each}
+      </Table.Body>
+      </Table.Root>	
+      </ScrollArea>			
 				</Card.Content>
 			</Card.Root>
 		</div>

@@ -1,7 +1,8 @@
 import State from '../core/state.js'
 import { FA_states, canvas_contex, reload ,input } from '../store.js';  
-import { triverse  } from '../core/traverser.js'
-import { parser } from '../core/parser.js'
+// import { triverse  } from '../core/traverser.js'
+// import { parser } from '../core/parser.js'
+import { buildNFAFromRegex } from './regex_nfa.js'
 
 let engine = {};
 let canvas = {};
@@ -13,12 +14,17 @@ let sub_input;
 engine.inputchanged = (input) => {
 	State.taken=[]
 	let tempstates = []
-	let p = new State(95, 50, "t", true);
-	tempstates.push(p)
-	triverse(p, parser(input), tempstates)
-	tempstates[0].setpos(200, 450);
-	tempstates[0].is_current = true;
-	FA_states.update((states) => states = tempstates );
+	try {
+		const { start, states } = buildNFAFromRegex(input);
+		// seed position and mark start
+		states[0] && states[0].setpos(200, 450);
+		start.is_current = true;
+		// ensure all states are included and positioned
+		tempstates = states;
+		FA_states.update((_) => tempstates);
+	} catch (e) {
+		console.error('Regex build error:', e.message || e);
+	}
 	redraw();
 }
 
@@ -258,13 +264,33 @@ engine.load= async() => {
 
 		canvas.addEventListener('keydown', (e) => {
 			let states;
-			FA_states.subscribe((val) => states = val);
-			let active_state = states.filter((state) => state.is_current)[0];
-			let next = active_state.children.filter( ([ _, con]) => con == e.key)[0];
-			if(!next) { return }
-			next = next[0]
-			next.is_current = true;
-			active_state.is_current = false;
+			FA_states.subscribe((val) => states = val)();
+			if(!states || !states.length) return;
+			const EPS = 'ε';
+			const wild = (con, key) => con === key || con === '.';
+			const epsClosure = (set) => {
+				const res = new Set(set);
+				const stack = [...set];
+				while(stack.length){
+					const s = stack.pop();
+					for(const [child, con] of s.children){
+						if(con===EPS && !res.has(child)){ res.add(child); stack.push(child); }
+					}
+				}
+				return res;
+			};
+			const current = states.filter(s => s.is_current);
+			let curSet = epsClosure(new Set(current));
+			const nextSet = new Set();
+			for(const s of curSet){
+				for(const [child, con] of s.children){
+					if(wild(con, e.key)) nextSet.add(child);
+				}
+			}
+			if(nextSet.size===0) return;
+			const done = epsClosure(nextSet);
+			states.forEach(s => s.is_current = false);
+			done.forEach(s => s.is_current = true);
 			FA_states.update((_) => states);
 			redraw();
 		})
@@ -308,13 +334,16 @@ engine.load= async() => {
 		trackTransforms(ctx);
 		State.taken = {}
 		
-		let p = new State(95, 50, "t"+low[0], true);
 		let tempstates = []
-		tempstates.push(p)
-		let finals = triverse(p, parser(sub_input), tempstates)
-		tempstates[0].setpos(200, 450);
-		tempstates[0].is_current = true;
-		FA_states.update((states) => states = tempstates)
+		try {
+			const { start, states } = buildNFAFromRegex(sub_input || '');
+			states[0] && states[0].setpos(200, 450);
+			start.is_current = true;
+			tempstates = states;
+			FA_states.update((_) => tempstates)
+		} catch (e) {
+			console.error('Regex build error:', e.message || e);
+		}
 
 		redraw();
 		init();
