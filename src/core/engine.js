@@ -22,10 +22,12 @@ engine.inputchanged = (input) => {
 	redraw();
 }
 
+
 let goFullscreen = async () => {
 	if(!document.fullscreenElement) {
 		canvas.width = 1100; canvas.height = 600;
-		await app.requestFullscreen();
+		// Request fullscreen on the document element
+		await (document.documentElement.requestFullscreen && document.documentElement.requestFullscreen());
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 		init()
@@ -109,7 +111,7 @@ function trackTransforms(ctx){
 	
 	var setTransform = ctx.setTransform;
 	ctx.setTransform = function(a,b,c,d,e,f){
-		xform.a = max(1, a);
+		xform.a = Math.max(1, a);
 		xform.b = b;
 		xform.c = c;
 		xform.d = d;
@@ -139,7 +141,11 @@ let init = () => {
 		dragged = false;
 		if(evt.shiftKey) {
 			dragged = true;
-			states.push(new State(pt.x, pt.y, "w"))
+			// Safely add a new state to the FA store
+			FA_states.update((states) => {
+				states.push(new State(pt.x, pt.y, "w"));
+				return states;
+			});
 		}
 		if(evt.altKey) { start = highlighted; return }
 		dragStart = ctx.transformedPoint(lastX,lastY);
