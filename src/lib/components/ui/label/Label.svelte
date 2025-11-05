@@ -1,9 +1,7 @@
 <script>
-  export let className = '';
-  // Accept arbitrary props like `for` via rest props
-  export let $$restProps;
+  // Use Svelte rest props to forward attributes like class and for
 </script>
 
-<label class={className} {...$$restProps}>
+<label {...$$restProps}>
   <slot />
 </label>
