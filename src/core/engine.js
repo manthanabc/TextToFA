@@ -17,7 +17,7 @@ engine.inputchanged = (input) => {
 	try {
 		const { start, states } = buildNFAFromRegex(input);
 		// seed position and mark start
-		states[0] && states[0].setpos(200, 450);
+		start && start.setpos(200, 450);
 		start.is_current = true;
 		// ensure all states are included and positioned
 		tempstates = states;
@@ -337,7 +337,7 @@ engine.load= async() => {
 		let tempstates = []
 		try {
 			const { start, states } = buildNFAFromRegex(sub_input || '');
-			states[0] && states[0].setpos(200, 450);
+			start && start.setpos(200, 450);
 			start.is_current = true;
 			tempstates = states;
 			FA_states.update((_) => tempstates)

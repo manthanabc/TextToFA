@@ -1,9 +1,9 @@
 <script>
   export let className = '';
-  export let forId = undefined;
+  // Accept arbitrary props like `for` via rest props
+  export let $$restProps;
 </script>
 
-<label class={className} for={forId}>
+<label class={className} {...$$restProps}>
   <slot />
-  </label>
-
+</label>
