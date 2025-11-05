@@ -1,6 +1,3 @@
-import Root from "./checkbox.svelte";
-export {
-	Root,
-	//
-	Root as Checkbox,
-};
+import Checkbox from './Checkbox.svelte';
+export { Checkbox };
+

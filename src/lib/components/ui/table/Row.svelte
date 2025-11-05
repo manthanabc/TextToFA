@@ -1,0 +1,2 @@
+<tr class="table-row"><slot /></tr>
+
