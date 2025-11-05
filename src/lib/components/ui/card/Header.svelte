@@ -1,4 +1,3 @@
-<div class="card-header">
+<div class="card-header" {...$$restProps}>
   <slot />
 </div>
-

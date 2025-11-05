@@ -1,2 +1,1 @@
-<div><slot /></div>
-
+<div {...$$restProps}><slot /></div>

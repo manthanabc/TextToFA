@@ -1,2 +1,1 @@
-<tr class="table-row"><slot /></tr>
-
+<tr class="table-row" {...$$restProps}><slot /></tr>

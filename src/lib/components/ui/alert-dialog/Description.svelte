@@ -1,2 +1,1 @@
-<p class="alert-description"><slot /></p>
-
+<p class="alert-description" {...$$restProps}><slot /></p>

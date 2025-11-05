@@ -2,6 +2,5 @@
   export let open = false;
 </script>
 {#if open}
-  <slot />
+  <div {...$$restProps}><slot /></div>
 {/if}
-

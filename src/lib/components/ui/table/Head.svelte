@@ -1,2 +1,1 @@
-<th class="table-head"><slot /></th>
-
+<th class="table-head" {...$$restProps}><slot /></th>

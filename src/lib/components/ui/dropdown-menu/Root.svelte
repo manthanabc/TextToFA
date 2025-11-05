@@ -1,2 +1,1 @@
-<div class="dropdown-root"><slot /></div>
-
+<div class="dropdown-root" {...$$restProps}><slot /></div>

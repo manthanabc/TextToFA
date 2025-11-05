@@ -1,2 +1,1 @@
-<div class="menubar-root"><slot /></div>
-
+<div class="menubar-root" {...$$restProps}><slot /></div>

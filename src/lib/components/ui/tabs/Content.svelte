@@ -4,6 +4,5 @@
   const tabs = getContext('tabs') || { value: undefined };
 </script>
 {#if !tabs.value || tabs.value === value}
-  <div class="tabs-content"><slot /></div>
+  <div class="tabs-content" {...$$restProps}><slot /></div>
 {/if}
-

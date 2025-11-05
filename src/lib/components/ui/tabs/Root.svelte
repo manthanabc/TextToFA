@@ -4,5 +4,4 @@
   function setValue(v){ value = v; }
   setContext('tabs', { get value(){ return value; }, setValue });
 </script>
-<div class="tabs-root"><slot /></div>
-
+<div class="tabs-root" {...$$restProps}><slot /></div>

@@ -1,2 +1,1 @@
-<tbody class="table-body"><slot /></tbody>
-
+<tbody class="table-body" {...$$restProps}><slot /></tbody>

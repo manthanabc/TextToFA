@@ -1,9 +1,3 @@
-<script>
-  export let className = '';
-  export let style = '';
-</script>
-
-<div class={className} style={`overflow:auto; ${style}`}>
+<div {...$$restProps} style={`overflow:auto; ${$$restProps?.style || ''}`}>
   <slot />
 </div>
-

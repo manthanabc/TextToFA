@@ -1,9 +1,7 @@
 <script>
-  export let className = '';
   export let disabled = false;
 </script>
 
-<button class={className} disabled={disabled}>
+<button {...$$restProps} disabled={disabled}>
   <slot />
-</button>
-
+  </button>

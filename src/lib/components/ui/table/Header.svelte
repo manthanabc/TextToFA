@@ -1,2 +1,1 @@
-<thead class="table-header"><slot /></thead>
-
+<thead class="table-header" {...$$restProps}><slot /></thead>

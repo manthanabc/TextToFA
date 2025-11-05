@@ -1,4 +1,3 @@
-<h3 class="card-title">
+<h3 class="card-title" {...$$restProps}>
   <slot />
 </h3>
-

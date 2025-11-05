@@ -1,2 +1,1 @@
-<div class="alert-footer"><slot /></div>
-
+<div class="alert-footer" {...$$restProps}><slot /></div>
