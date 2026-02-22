@@ -31,11 +31,11 @@
 
 </script>
 
-<div class="h-full flex-col md:flex bg-gradient-to-tr from-[#111038] via-[#000712] to-[#351033]" style="background-image: linear-gradient(var(--angle), var(--tw-gradient-stops)) !important; animation: spin 5s ease infinite">
-				<Overlay />
+<div class="ts-app-surface flex flex-col items-stretch overflow-hidden">
+                                <Overlay />
 
-				<canvas id="DFA" style="background-image: none; background: #00000050" tabindex=0></canvas>
+                                <canvas id="DFA" class="ts-canvas" tabindex="0"></canvas>
 
-				<SpotifyEmbed />
-				<Popup />
+                                <SpotifyEmbed />
+                                <Popup />
 </div>
