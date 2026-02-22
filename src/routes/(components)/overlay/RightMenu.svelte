@@ -4,7 +4,7 @@
 
 </script>
 
-<div class="absolute right-1 h-full flex flex-col justify-end pointer-events-none">
+<div class="absolute right-1 top-16 bottom-0 flex flex-col justify-end pointer-events-none">
 
 		<DFATable />
 		<HelpMenu />
