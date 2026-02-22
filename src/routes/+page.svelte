@@ -32,9 +32,9 @@
 </script>
 
 <div class="ts-app-surface flex flex-col items-stretch overflow-hidden">
-                                <Overlay />
-
                                 <canvas id="DFA" class="ts-canvas" tabindex="0"></canvas>
+
+                                <Overlay />
 
                                 <SpotifyEmbed />
                                 <Popup />
