@@ -8,7 +8,7 @@
   onMount(() => {
     const root = document.documentElement;
 
-    const applyTheme = (value: string | undefined) => {
+    const applyTheme = (value) => {
       const resolved = value ?? "lover";
       root.dataset.tsTheme = resolved;
     };
