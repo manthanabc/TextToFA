@@ -1,14 +1,14 @@
 <script>
   import * as Menubar from "$lib/components/ui/menubar/index.js"
   
-	let bookmarks =""
-	let fullUrls =""
+        let bookmarks = false
+        let fullUrls = false
 	
 </script>
 
 <div>
 	<!-- MENUBAR -->
-	<Menubar.Root class="backdrop-blur bg-cardBackground/80 black/20 w-full absolute border-none shadow-[0px_0px_12px_1px_black]">
+        <Menubar.Root class="ts-surface ts-surface--compact w-full absolute border-none px-4 py-2">
 	  <Menubar.Menu >
 	    <Menubar.Trigger>File</Menubar.Trigger>
 	    <Menubar.Content>

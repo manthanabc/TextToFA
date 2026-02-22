@@ -4,187 +4,389 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
- 
-    --cardBackground: black;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
- 
+    color-scheme: light;
+    --background: 329 100% 96%;
+    --foreground: 326 35% 22%;
+    --muted: 332 55% 88%;
+    --muted-foreground: 323 24% 38%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
+    --popover-foreground: 326 35% 22%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
- 
-    --primary: 222.2 47.4% 11.2%;
+    --card-foreground: 326 35% 22%;
+    --border: 318 41% 86%;
+    --input: 318 41% 86%;
+    --primary: 332 79% 56%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 199 94% 82%;
+    --secondary-foreground: 222 47% 16%;
+    --accent: 197 100% 82%;
+    --accent-foreground: 222 47% 16%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+    --ring: 332 79% 56%;
+    --panel-radius: 1.5rem;
+    --glass-blur: 26px;
+    --cardBackground: 0 0% 100%;
+    --panel-shadow: 0 25px 50px rgba(238, 140, 180, 0.25);
+    --glass-panel: rgba(255, 255, 255, 0.58);
+    --glass-border: rgba(255, 255, 255, 0.35);
+    --button-surface: rgba(255, 255, 255, 0.55);
+    --button-hover-surface: rgba(255, 255, 255, 0.78);
+    --button-foreground: #8b2255;
+    --button-hover-foreground: #5a1840;
+    --button-shadow: 0 15px 40px rgba(242, 145, 187, 0.28);
+    --page-gradient: linear-gradient(135deg, #ffe4f3 0%, #dae6ff 50%, #ffd9ec 100%);
+    --canvas-overlay: rgba(255, 255, 255, 0.18);
+    --canvas-shadow: 0 25px 120px rgba(212, 130, 172, 0.28);
+  }
+
+  :root[data-ts-theme="lover"] {
+    color-scheme: light;
+    --background: 329 100% 96%;
+    --foreground: 326 35% 22%;
+    --muted: 332 55% 88%;
+    --muted-foreground: 323 24% 38%;
+    --border: 318 41% 86%;
+    --input: 318 41% 86%;
+    --primary: 332 79% 56%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 199 94% 82%;
+    --secondary-foreground: 222 47% 16%;
+    --accent: 197 100% 82%;
+    --accent-foreground: 222 47% 16%;
+    --panel-shadow: 0 25px 50px rgba(238, 140, 180, 0.25);
+    --glass-panel: rgba(255, 255, 255, 0.58);
+    --glass-border: rgba(255, 255, 255, 0.35);
+    --button-surface: rgba(255, 255, 255, 0.55);
+    --button-hover-surface: rgba(255, 255, 255, 0.78);
+    --button-foreground: #8b2255;
+    --button-hover-foreground: #5a1840;
+    --button-shadow: 0 15px 40px rgba(242, 145, 187, 0.28);
+    --page-gradient: linear-gradient(135deg, #ffe4f3 0%, #dae6ff 50%, #ffd9ec 100%);
+    --canvas-overlay: rgba(255, 255, 255, 0.18);
+    --canvas-shadow: 0 25px 120px rgba(212, 130, 172, 0.28);
+  }
+
+  :root[data-ts-theme="midnights"] {
+    color-scheme: dark;
+    --background: 226 53% 12%;
+    --foreground: 210 40% 96%;
+    --muted: 228 34% 24%;
+    --muted-foreground: 222 20% 75%;
+    --popover: 226 53% 12%;
+    --popover-foreground: 210 40% 96%;
+    --card: 230 42% 16%;
+    --card-foreground: 210 40% 96%;
+    --border: 227 36% 32%;
+    --input: 227 36% 32%;
+    --primary: 265 78% 68%;
     --primary-foreground: 210 40% 98%;
- 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
- 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 72.2% 50.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --ring: 222.2 84% 4.9%;
- 
-    --radius: 0.5rem;
-  }
- 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    --cardBackground: black;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
- 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
- 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 216 33% 22%;
     --secondary-foreground: 210 40% 98%;
- 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 265 78% 68%;
     --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --ring: hsl(212.7,26.8%,83.9);
-  }
-  .su {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
- 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
- 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
- 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
- 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
- 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
- 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
- 
-    --ring: hsl(212.7,26.8%,83.9);
+    --ring: 265 78% 68%;
+    --panel-shadow: 0 25px 70px rgba(15, 23, 42, 0.55);
+    --glass-panel: rgba(19, 28, 57, 0.65);
+    --glass-border: rgba(148, 163, 184, 0.32);
+    --button-surface: rgba(33, 47, 86, 0.6);
+    --button-hover-surface: rgba(59, 83, 126, 0.78);
+    --button-foreground: #dbeafe;
+    --button-hover-foreground: #f8fafc;
+    --button-shadow: 0 25px 60px rgba(23, 36, 74, 0.6);
+    --page-gradient: linear-gradient(135deg, #0f172a 0%, #1d2671 50%, #2e4482 100%);
+    --canvas-overlay: rgba(15, 23, 42, 0.55);
+    --canvas-shadow: 0 35px 140px rgba(12, 18, 36, 0.65);
   }
 
-.suuu {
+  :root[data-ts-theme="folklore"] {
+    color-scheme: light;
+    --background: 36 24% 92%;
+    --foreground: 26 16% 24%;
+    --muted: 35 18% 82%;
+    --muted-foreground: 30 16% 40%;
+    --popover: 35 18% 94%;
+    --popover-foreground: 26 16% 24%;
+    --card: 35 18% 88%;
+    --card-foreground: 26 16% 24%;
+    --border: 30 18% 80%;
+    --input: 30 18% 80%;
+    --primary: 28 26% 42%;
+    --primary-foreground: 35 36% 94%;
+    --secondary: 26 16% 30%;
+    --secondary-foreground: 35 36% 94%;
+    --accent: 32 28% 46%;
+    --accent-foreground: 40 35% 96%;
+    --ring: 28 26% 42%;
+    --panel-shadow: 0 30px 60px rgba(112, 93, 73, 0.28);
+    --glass-panel: rgba(255, 251, 244, 0.72);
+    --glass-border: rgba(164, 147, 123, 0.28);
+    --button-surface: rgba(255, 251, 244, 0.65);
+    --button-hover-surface: rgba(255, 251, 244, 0.82);
+    --button-foreground: #7a5f45;
+    --button-hover-foreground: #5d4430;
+    --button-shadow: 0 20px 55px rgba(136, 112, 88, 0.32);
+    --page-gradient: linear-gradient(135deg, #f1ede2 0%, #d7cec2 50%, #f6f1e8 100%);
+    --canvas-overlay: rgba(241, 234, 222, 0.72);
+    --canvas-shadow: 0 30px 120px rgba(126, 110, 90, 0.35);
+  }
 
-    --foreground:199 64% 73%;
-    --background:200 95% 14%;
- 
-    --muted: 192 70% 43%;
-    --muted-foreground:200 95% 14%;
- 
-    --popover: #023047;
-    --popover-foreground: #219EBC;
- 
-    --card: #023047;
-    --card-foreground: #219EBC;
- 
-    --border: #8ECAE6;
-    --input: #8ECAE6;
- 
-    --primary: #219EBC;
-    --primary-foreground: #023047;
- 
-    --secondary: #8ECAE6;
-    --secondary-foreground: #219EBC;
- 
-    --accent: #8ECAE6;
-    --accent-foreground: #219EBC;
- 
-    --destructive: #FFB703;
-    --destructive-foreground: #219EBC;
- 
-    --ring: #D6E2E9; 
-   }
+  :root[data-ts-theme="reputation"] {
+    color-scheme: dark;
+    --background: 0 0% 6%;
+    --foreground: 0 0% 95%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 65%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 95%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 95%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --primary: 0 0% 90%;
+    --primary-foreground: 0 0% 12%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 92%;
+    --accent: 0 0% 70%;
+    --accent-foreground: 0 0% 10%;
+    --ring: 0 0% 72%;
+    --panel-shadow: 0 35px 85px rgba(0, 0, 0, 0.7);
+    --glass-panel: rgba(20, 20, 20, 0.68);
+    --glass-border: rgba(255, 255, 255, 0.16);
+    --button-surface: rgba(46, 46, 46, 0.65);
+    --button-hover-surface: rgba(255, 255, 255, 0.14);
+    --button-foreground: #f5f5f5;
+    --button-hover-foreground: #ffffff;
+    --button-shadow: 0 35px 90px rgba(0, 0, 0, 0.65);
+    --page-gradient: linear-gradient(135deg, #0f0f0f 0%, #1c1c1c 50%, #262626 100%);
+    --canvas-overlay: rgba(17, 17, 17, 0.75);
+    --canvas-shadow: 0 40px 140px rgba(0, 0, 0, 0.7);
+  }
 
+  :root[data-ts-theme="1989"] {
+    color-scheme: light;
+    --background: 204 100% 97%;
+    --foreground: 214 32% 18%;
+    --muted: 200 44% 90%;
+    --muted-foreground: 210 28% 38%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 214 32% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 214 32% 18%;
+    --border: 203 62% 86%;
+    --input: 203 62% 86%;
+    --primary: 213 90% 55%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 16 82% 64%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 199 94% 76%;
+    --accent-foreground: 214 32% 18%;
+    --ring: 213 90% 55%;
+    --panel-shadow: 0 30px 70px rgba(125, 173, 233, 0.35);
+    --glass-panel: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(148, 197, 255, 0.38);
+    --button-surface: rgba(255, 255, 255, 0.68);
+    --button-hover-surface: rgba(224, 239, 255, 0.9);
+    --button-foreground: #1d4ed8;
+    --button-hover-foreground: #1e3a8a;
+    --button-shadow: 0 25px 70px rgba(125, 173, 233, 0.4);
+    --page-gradient: linear-gradient(135deg, #d8ecff 0%, #ffe4d9 50%, #f1f8ff 100%);
+    --canvas-overlay: rgba(227, 242, 255, 0.55);
+    --canvas-shadow: 0 35px 120px rgba(120, 170, 225, 0.38);
+  }
 
-.bg-popover {
-  backdrop-filter: blur(15px) !important;
-  background-color: #00000050 !important;
-}
-
-@property --angle{
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 90deg;
-}
-
-@keyframes spin {
-  0%{ --angle: 0deg; } 
-  100%{  --angle: 360deg; }
-}
-
-.gum {
-    --foreground: 199 64% 73%;
-    --background: 200 95% 14%;
- 
-    --muted: 192 70% 43%;
-    --muted-foreground: 200 95% 14%;
- 
-    --popover: 32 100% 49%;
-    --popover-foreground: 43 100% 51%;
- 
-    --card: 32 100% 49%;
-    --card-foreground: 43 100% 51%;
- 
-    --border: black;
-    --input: 192 70% 43%;
- 
-    --primary: 43 100% 51%;
-    --primary-foreground: 200 95% 14%;
- 
-    --secondary: 192 70% 43%;
-    --secondary-foreground: 43 100% 51%;
- 
-    --accent: 192 70% 43%;
-    --accent-foreground: 43 100% 51%;
- 
-    --destructive: 199 64% 73%;
-    --destructive-foreground: 43 100% 51%;
- 
-    --ring: 200 95% 14%; 
-}
-}
- 
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: hsl(var(--background));
+    background-image: var(--page-gradient);
+    background-attachment: fixed;
+    transition: background-color 0.5s ease, color 0.5s ease, background-image 0.8s ease;
   }
+}
+
+.ts-app-surface {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-image: var(--page-gradient);
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.6s ease;
+}
+
+.ts-surface {
+  background: var(--glass-panel);
+  border-radius: var(--panel-radius);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--panel-shadow);
+  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+.ts-surface--compact {
+  border-radius: calc(var(--panel-radius) * 0.6);
+}
+
+.ts-button {
+  background: var(--button-surface);
+  color: var(--button-foreground);
+  border-radius: 9999px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.7));
+  box-shadow: var(--button-shadow);
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.ts-button:hover {
+  background: var(--button-hover-surface);
+  color: var(--button-hover-foreground);
+  transform: translateY(-1px);
+}
+
+.ts-button--active {
+  background: hsla(var(--primary), 0.28);
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 18px 45px hsla(var(--primary), 0.32);
+}
+
+.ts-button:focus-visible {
+  outline: 2px solid hsla(var(--ring), 0.45);
+  outline-offset: 2px;
+}
+
+.ts-dropdown {
+  background: var(--glass-panel);
+  border-radius: calc(var(--panel-radius) * 0.6);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.ts-dropdown__item {
+  color: hsl(var(--foreground));
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.ts-dropdown__item[data-highlighted] {
+  background: hsla(var(--accent), 0.18);
+  color: hsl(var(--accent-foreground));
+}
+
+.ts-dropdown__item[data-state="checked"] {
+  background: hsla(var(--primary), 0.22);
+  color: hsl(var(--primary-foreground));
+}
+
+.ts-theme-swatch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.125rem;
+  width: 2.5rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.ts-theme-swatch__color {
+  flex: 1;
+  height: 100%;
+}
+
+.ts-tablist {
+  gap: 0.35rem;
+  padding: 0.35rem;
+  background: var(--glass-panel);
+  border-radius: 9999px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+}
+
+.ts-tab-trigger {
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  color: hsl(var(--muted-foreground));
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.ts-tab-trigger[data-state="active"] {
+  background: hsla(var(--primary), 0.2);
+  color: hsl(var(--primary));
+  border-radius: 9999px;
+}
+
+.ts-text-strong {
+  color: hsl(var(--foreground));
+}
+
+.ts-text-subtle {
+  color: hsl(var(--muted-foreground));
+}
+
+.ts-text-emphasis {
+  color: hsl(var(--primary));
+}
+
+.ts-text-secondary {
+  color: hsl(var(--secondary-foreground));
+}
+
+.ts-canvas {
+  width: 100%;
+  height: 100vh;
+  background: var(--canvas-overlay);
+  box-shadow: var(--canvas-shadow);
+  border-radius: calc(var(--panel-radius) * 1.1);
+  backdrop-filter: blur(calc(var(--glass-blur) * 0.4));
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+  position: relative;
+  z-index: 0;
+}
+
+.ts-panel {
+  padding: clamp(1rem, 1.8vw, 1.4rem);
+  border-radius: var(--panel-radius);
+  background: var(--glass-panel);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+}
+
+.ts-panel--floating {
+  border-radius: calc(var(--panel-radius) * 0.9);
+}
+
+.ts-textarea {
+  background: hsla(var(--background), 0.65);
+  color: hsl(var(--foreground));
+  border-radius: calc(var(--panel-radius) * 0.4);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.ts-textarea:focus-visible {
+  outline: 2px solid hsla(var(--ring), 0.45);
+  outline-offset: 2px;
+}
+
+.ts-textarea::placeholder {
+  color: hsla(var(--muted-foreground), 0.7);
+}
+
+.ts-dialog-panel {
+  background: var(--glass-panel);
+  border-radius: var(--panel-radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--panel-shadow);
+  backdrop-filter: blur(var(--glass-blur));
+  color: hsl(var(--foreground));
 }
